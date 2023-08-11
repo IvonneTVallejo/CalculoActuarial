@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Calculo Actuarial</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="/css/empleados.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav>
+        <div class="logo-name">
+            <div class="logo-image">
+                <img src="/Images/logo.png" alt="">
+            </div>
+
+            <span class="logo_name">Cálculo Actuarial</span>
+        </div>
+        <div class="menu-items">
+            <ul class="nav-links">
+                <li><a href="#">
+                        <i class="uil uil-user"></i>
+                        <span class="link-name">Empleados</span>
+                    </a></li>
+                <li><a href="/pages/empleadores.html">
+                        <i class="uil uil-building"></i>
+                        <span class="link-name">Empleadores</span>
+                    </a></li>
+                <li><a href="/pages/calculoActuarial.html">
+                        <i class="uil uil-calculator"></i>
+                        <span class="link-name">Generar Cálculo</span>
+                    </a></li>
+                <li><a href="/pages/reportes.html">
+                        <i class="uil uil-file-download-alt"></i>
+                        <span class="link-name">Reportes</span>
+                    </a></li>
+                <li><a href="/pages/actualizarParametros.html">
+                        <i class="uil uil-usd-circle"></i>
+                        <span class="link-name">Actualizar parámetros</span>
+                    </a></li>
+                <li><a href="/pages/cambiarContrasena.html">
+                        <i class="uil uil-padlock"></i>
+                        <span class="link-name">Cambiar contraseña</span>
+                    </a></li>
+            </ul>
+            <ul class="logout-mode">
+                <li><a href="#">
+                        <i class="uil uil-signout"></i>
+                        <span class="link-name">Logout</span>
+                    </a></li>
+                <li class="mode">
+                    <a href="#">
+                        <i class="uil uil-moon"></i>
+                        <span class="link-name">Dark Mode</span>
+                    </a>
+                    <div class="mode-toggle">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="dashboard">
+        <div class="top">
+            <i class="uil uil-bars sidebar-toggle"></i>
+            <div class="search-box">
+                <i class="uil uil-search"></i>
+                <input type="text" placeholder="Search here...">
+            </div>
+        </div>
+        <div class="dash-content">
+            <div class="activity">
+                <div class="title">
+                    <i class="uil uil-user"></i>
+                    <span class="text">MODULO EMPLEADOS</span>
+                </div>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalRegistroEmpleador">
+                    Nuevo Registro
+                </button>
+                <br>
+                <br>
+                <div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="table-success">
+                                <th>Tipo ID</th>
+                                <th>Identificación</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Teléfono</th>
+                                <th>Correo</th>
+                                <th>Fecha Nacimiento</th>
+                                <th class="col-1">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="cuerpo" id="contenidoTablaEmpleado">
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal fade" id="modalRegistroEmpleador" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel" style="color:white">Insertar Empleado</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">×</font>
+                                        </font>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="tipo">Tipo Identificación:</label>
+                                    <select name="tipo" id="tipo" class="form-control">
+                                        <option value="CC">Cédula de Ciudadanía</option>
+                                        <option value="CE">Cédula de Extranjería</option>
+                                        <option value="TE">Tarjeta de Extranjería</option>
+                                        <option value="PAP">Pasaporte</option>
+                                        <option value="NIP">Número de Identificación Personal</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nit">Identificación:</label>
+                                    <input type="text" class="form-control" id="nit">
+                                </div>
+                                <div class="form-group">
+                                    <label for="nombres">Nombres:</label>
+                                    <input type="text" class="form-control" id="nombres">
+                                </div>
+                                <div class="form-group">
+                                    <label for="apellidos">Apellidos:</label>
+                                    <input type="text" class="form-control" id="apellidos">
+                                </div>
+                                <div class="form-group">
+                                    <label for="direccion">Dirección:</label>
+                                    <input type="text" class="form-control" id="direccion">
+                                </div>
+                                <div class="form-group">
+                                    <label for="telefono">Telefono:</label>
+                                    <input type="text" class="form-control" id="telefono">
+                                </div>
+                                <div class="form-group">
+                                    <label for="correo">Correo:</label>
+                                    <input type="text" class="form-control" id="correo">
+                                </div>
+                                <div class="form-group">
+                                    <label for="fechaNac">Fecha Nacimiento:</label>
+                                    <input type="date" class="form-control" id="fechaNac">
+                                </div>
+                                <div class="form-group">
+                                    <label for="genero">Género:</label>
+                                    <select name="genero" id="genero" class="form-control">
+                                        <option value="M">Mujer</option>
+                                        <option value="H">Hombre</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" onclick="limpiarCampos()" style="font-size: 13px;">Limpiar</button>
+                                <button type="button" class="btn btn-success" id="registrar"
+                                    onclick="crearEmpleado()" style="font-size: 13px;">Guardar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="/js/script.js"></script>
+    <script src="/js/empleados.js"></script>
+</body>
+
+</html>
