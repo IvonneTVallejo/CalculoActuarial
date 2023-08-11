@@ -564,17 +564,15 @@ nav.close~.dashboard .top {
     font-size: 13px;
 }
 
-.activity{
-    position: fixed;
-}
 #div1 {
     overflow-y:scroll;
-    height:380px;
+    height:350px;
     width:100%;
 }
 
 #div1 table {
     width:100%;
+    background-color:#F8F9F9;
 }
 
 thead {

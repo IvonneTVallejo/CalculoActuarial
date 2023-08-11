@@ -71,6 +71,10 @@
     <section class="dashboard">
         <div class="top">
             <i class="uil uil-bars sidebar-toggle"></i>
+            <div class="search-box">
+                <i class="uil uil-search"></i>
+                <input type="text" id="filtroInput" placeholder="Filtrar por...">
+            </div>
         </div>
         <div class="dash-content">
             <div class="activity">
@@ -78,41 +82,96 @@
                     <i class="uil uil-building"></i>
                     <span class="text">GENERAR CÁLCULO</span>
                 </div>
-                <div class="form-group">
-                    <label for="empleador">Empleador:</label>
-                    <input type="text" class="form-control" id="empleador">
-                    <button class="btn btn-success" type="submit">Buscar</button>
+                <button type="button" class="btn btn-success" data-toggle="modal"
+                        data-target="#modalRegistroCalculo">
+                        Nuevo Cálculo
+                    </button>
+                <br>
+                <br>
+                <div id="div1">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="table-success">
+                                <th>Empleador</th>
+                                <th>Empleado</th>
+                                <th>Identificación</th>
+                                <th>Fecha inicial</th>
+                                <th>Fecha final</th>
+                                <th>Total a pagar</th>
+                                <th class="col-1">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="cuerpo" id="contenidoTablaCalculo">
+                        </tbody>
+                    </table>
                 </div>
-                <div class="form-group">
-                    <label for="empleado">Empleado:</label>
-                    <input type="text" class="form-control" id="empleado">
-                    <button class="btn btn-success" type="submit">Buscar</button>
+
+                <!-- Inicio modal -->
+                <div class="modal fade" id="modalRegistroCalculo" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel" style="color:white">Generar Cálculo
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">×</font>
+                                        </font>
+                                    </span>
+                                </button>
+                            </div>
+
+
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="empleador">Empleador:</label>
+                                    <input type="text" class="form-control" id="empleador">
+                                    <button class="btn btn-success" type="submit">Buscar</button>
+                                </div>
+                                <div class="form-group">
+                                    <label for="empleado">Empleado:</label>
+                                    <input type="text" class="form-control" id="empleado">
+                                    <button class="btn btn-success" type="submit">Buscar</button>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fechaNac">Fecha Nacimiento:</label>
+                                    <input type="date" class="form-control" id="fechaNac" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="genero">Género:</label>
+                                    <input type="text" class="form-control" id="genero" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <br>
+                                    <label for="fechaIni"><strong>Información de la omisión de aportes:</strong></label>
+                                </div>
+                                <div class="form-group2">
+                                    <label for="fechaIni">Fecha inicial:</label>
+                                    <input type="date" class="form-control" id="fechaIni">
+                                    <label for="fechaFin">Fecha final:</label>
+                                    <input type="date" class="form-control" id="fechaFin">
+                                </div>
+                                <div class="form-group">
+                                    <label for="salarioBase">Salario base liquidación:</label>
+                                    <input type="text" class="form-control" value="$ " aria-label="Amount (to the nearest dollar)">
+                                </div>
+                            </div>
+
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" onclick="limpiarCampos()"
+                                    style="font-size: 13px;">Limpiar</button>
+                                <button type="button" class="btn btn-success" id="registrar" onclick="generaCalculo()"
+                                    style="font-size: 13px;">Calcular</button>
+                                    <button type="button" class="btn btn-success" id="registrar" onclick="guardarCalculo()"
+                                    style="font-size: 13px;">Guardar</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="fechaNac">Fecha Nacimiento:</label>
-                    <input type="date" class="form-control" id="fechaNac" disabled>
-                </div>
-                <div class="form-group">
-                    <label for="genero">Género:</label>
-                    <input type="text" class="form-control" id="genero" disabled>
-                </div>
-                <div class="form-group">
-                    <br>
-                    <label for="fechaIni"><strong>Información de la omisión de aportes:</strong></label>
-                </div>
-                <div class="form-group2">
-                    <label for="fechaIni">Fecha inicial:</label>
-                    <input type="date" class="form-control" id="fechaIni">
-                    <label for="fechaFin">Fecha final:</label>
-                    <input type="date" class="form-control" id="fechaFin">
-                </div>
-                <div class="form-group">
-                    <label for="salarioBase">Salario base liquidación:</label>
-                    <input type="text" class="form-control" value="$ " aria-label="Amount (to the nearest dollar)">
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-success" type="submit" style="width: 150px;">Calcular</button>
-                </div>
+                <!-- Fin modal -->
             </div>
         </div>
     </section>
@@ -122,7 +181,7 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script src="/js/script.js"></script>
-    <script src="/js/empleado.js"></script>
+    <script src="/js/calculoActuarial.js"></script>
 </body>
 
 </html>

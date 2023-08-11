@@ -514,13 +514,12 @@ nav.close ~ .dashboard .top{
 
 #div1 {
     overflow-y:scroll;
-    height:350px;
+    height:380px;
     width:100%;
 }
 
 #div1 table {
     width:100%;
-    background-color:#F8F9F9;
 }
 
 thead {
