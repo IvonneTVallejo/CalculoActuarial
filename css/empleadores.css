@@ -1,4 +1,3 @@
-/* ===== Google Font Import - Poppins ===== */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
 
 * {
@@ -9,7 +8,6 @@
 }
 
 :root {
-    /* ===== Colors ===== */
     --primary-color: #0f5044;
     --panel-color: #FFF;
     --text-color: #000;
@@ -20,8 +18,6 @@
     --box2-color: #FFE6AC;
     --box3-color: #E7D1FC;
     --title-icon-color: #fff;
-
-    /* ====== Transition ====== */
     --tran-05: all 0.5s ease;
     --tran-03: all 0.3s ease;
     --tran-03: all 0.2s ease;
@@ -47,7 +43,6 @@ body.dark {
     --title-icon-color: #CCC;
 }
 
-/* === Custom Scroll Bar CSS === */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -336,6 +331,7 @@ nav.close~.dashboard .top {
     font-weight: 500;
     color: var(--text-color);
     margin-left: 10px;
+
 }
 
 .dash-content .boxes {
@@ -387,7 +383,6 @@ nav.close~.dashboard .top {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-
 }
 
 .activity .activity-data {
@@ -535,13 +530,10 @@ nav.close~.dashboard .top {
     background-color: #0f5044;
 }
 
-
-
 .modal-body {
     margin: 20px;
     margin-top: 5%;
     padding: 20px;
-
 }
 
 .modal-content {
@@ -549,7 +541,6 @@ nav.close~.dashboard .top {
     opacity: 1;
     box-shadow: 0px 0px 3px #848484;
     width: 100%;
-
 }
 
 .form-group label,
@@ -558,20 +549,35 @@ nav.close~.dashboard .top {
     display: inline-block;
     vertical-align: middle;
     font-size: 14px;
-    /* Alineación vertical en línea */
 }
 
-.btn-success{
+.btn-success {
     background-color: #0f5044;
     font-size: 13.5px;
-    
 }
 
-.btn-success:hover{
+.btn-success:hover {
     background-color: #4a4d4c;
-    
 }
 
-.table{
+.table {
     font-size: 13px;
+}
+
+.activity{
+    position: fixed;
+}
+#div1 {
+    overflow-y:scroll;
+    height:380px;
+    width:100%;
+}
+
+#div1 table {
+    width:100%;
+}
+
+thead {
+    position: sticky;
+    top: 0;
 }

@@ -12,14 +12,7 @@ function limpiarCampos() {
     $("#correo").val("");
 }
 
-function limpiarCamposActualizados() {
-    $("#nitUP").val("");
-    $("#nombreUP").val("");
-    $("#telefonoUP").val("");
-    $("#correoUP").val("");
-}
-
-// Funcion para listar todos los empleados 
+// Funcion para listar todos los empleadores
 function consultarEmpleador() {
     $.ajax({
         url: "http://localhost:8085/libertadores/empleador/general",
@@ -47,7 +40,7 @@ function consultarEmpleador() {
 
 // Funcion para registrar un empleador
 function crearEmpleador() {
-    if ($("#tipo").val().length == 0 || $("#nit").val().length == 0 || $("#nombre").val().length == 0 || $("#telefono").val().length == 0 || $("#correo").val().length == 0) {
+    if ($("#nit").val().length == 0 || $("#nombre").val().length == 0 || $("#telefono").val().length == 0 || $("#correo").val().length == 0) {
         alert("COMPLETE TODOS LOS CAMPOS!!")
     } else {
         const url = 'http://localhost:8085/libertadores/empleador';
@@ -119,7 +112,6 @@ function actualizarEmpleador() {
             .then(data => {
                 alert('EMPLEADOR ACTUALIZADO EXITOSAMENTE!!:', data);
                 consultarEmpleador();
-                limpiarCamposActualizados();
                 window.location.reload()
             })
             .catch(error => {
