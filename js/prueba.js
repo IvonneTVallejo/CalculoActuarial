@@ -222,3 +222,17 @@ $(document).ready(function () {
         });
     });
 });
+
+
+// Funcion para descargar de excel
+document.getElementById("exportarExcel").addEventListener("click", function () {
+    const tabla = document.getElementById("tablaEmpleador");
+    const filas = tabla.getElementsByTagName("tr");
+
+    const workbook = XLSX.utils.book_new();
+    const sheet = XLSX.utils.table_to_sheet(tabla);
+    XLSX.utils.book_append_sheet(workbook, sheet, "Hoja1");  
+
+    XLSX.writeFile(workbook, "Reporte_Calculo_Actuarial.xlsx");
+});
+

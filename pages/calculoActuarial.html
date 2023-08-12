@@ -37,10 +37,6 @@
                         <i class="uil uil-calculator"></i>
                         <span class="link-name">Generar Cálculo</span>
                     </a></li>
-                <li><a href="/pages/reportes.html">
-                        <i class="uil uil-file-download-alt"></i>
-                        <span class="link-name">Reportes</span>
-                    </a></li>
                 <li><a href="/pages/actualizarParametros.html">
                         <i class="uil uil-usd-circle"></i>
                         <span class="link-name">Actualizar parámetros</span>
@@ -82,14 +78,16 @@
                     <i class="uil uil-building"></i>
                     <span class="text">GENERAR CÁLCULO</span>
                 </div>
-                <button type="button" class="btn btn-success" data-toggle="modal"
-                        data-target="#modalRegistroCalculo">
-                        Nuevo Cálculo
-                    </button>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalRegistroCalculo">
+                    Nuevo Cálculo
+                </button>
+                <button type="button" id="exportarExcel" class="btn btn-success">
+                    Descargar Excel
+                </button>
                 <br>
                 <br>
                 <div id="div1">
-                    <table class="table table-bordered">
+                    <table id="tablaCalculo" class="table table-bordered">
                         <thead>
                             <tr class="table-success">
                                 <th>Empleador</th>
@@ -126,9 +124,17 @@
 
                             <div class="modal-body">
                                 <div class="form-group">
+                                    <br>
+                                    <label for="fechaIni"><strong>Información empleador:</strong></label>
+                                </div>
+                                <div class="form-group">
                                     <label for="empleador">Empleador:</label>
                                     <input type="text" class="form-control" id="empleador">
                                     <button class="btn btn-success" type="submit">Buscar</button>
+                                </div>
+                                <div class="form-group">
+                                    <br>
+                                    <label for="fechaIni"><strong>Información empleado:</strong></label>
                                 </div>
                                 <div class="form-group">
                                     <label for="empleado">Empleado:</label>
@@ -137,11 +143,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="fechaNac">Fecha Nacimiento:</label>
-                                    <input type="date" class="form-control" id="fechaNac" disabled>
+                                    <input type="date" class="form-control" id="fechaNac">
                                 </div>
                                 <div class="form-group">
                                     <label for="genero">Género:</label>
-                                    <input type="text" class="form-control" id="genero" disabled>
+                                    <input type="text" class="form-control" id="genero">
                                 </div>
                                 <div class="form-group">
                                     <br>
@@ -155,7 +161,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="salarioBase">Salario base liquidación:</label>
-                                    <input type="text" class="form-control" value="$ " aria-label="Amount (to the nearest dollar)">
+                                    <input type="text" id="salarioBase" class="form-control" value="$ ">
+                                </div>
+                                <div class="form-group">
+                                    <label for="total">Total a pagar:</label>
+                                    <input type="text" id="total" class="form-control" value="$ " disabled>
                                 </div>
                             </div>
 
@@ -164,9 +174,7 @@
                                 <button type="button" class="btn btn-success" onclick="limpiarCampos()"
                                     style="font-size: 13px;">Limpiar</button>
                                 <button type="button" class="btn btn-success" id="registrar" onclick="generaCalculo()"
-                                    style="font-size: 13px;">Calcular</button>
-                                    <button type="button" class="btn btn-success" id="registrar" onclick="guardarCalculo()"
-                                    style="font-size: 13px;">Guardar</button>
+                                    style="font-size: 13px;">Calcular y Guardar</button>
                             </div>
                         </div>
                     </div>
@@ -176,7 +184,10 @@
         </div>
     </section>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Import librerias JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>

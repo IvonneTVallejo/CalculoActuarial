@@ -2,30 +2,33 @@
 
 $(document).ready(function () {
     consultarEmpleado();
+});*/
+
+$("#salarioBase").on({
+    "focus": function (event) {
+        $(event.target).select();
+    },
+    "keyup": function (event) {
+        $(event.target).val(function (index, value) {
+            return value.replace(/\D/g, "")
+                .replace(/([0-9])([0-9]{2})$/, '$1.$2')
+                .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
+        });
+    }
 });
 
 // Funciones para limpiar los campos de los modales insertar y actualizar
 function limpiarCampos() {
-    $("#id").val("");
-    $("#nombres").val("");
-    $("#apellidos").val("");
-    $("#direccion").val("");
-    $("#telefono").val("");
-    $("#correo").val("");
+    $("#empleador").val("");
+    $("#empleado").val("");
     $("#fechaNac").val("");
     $("#genero").val("");
+    $("#fechaIni").val("");
+    $("#fechaFin").val("");
+    $("#salarioBase").val("$ ");
+    $("#total").val("$ ");
 }
-
-function limpiarCamposActualizados() {
-    $("#idUP").val("");
-    $("#nombresUP").val("");
-    $("#apellidosUP").val("");
-    $("#direccionUP").val("");
-    $("#telefonoUP").val("");
-    $("#correoUP").val("");
-    $("#fechaNacUP").val("");
-    $("#generoUP").val("");
-}
+/*
 
 // Funcion para listar todos los empleados 
 function consultarEmpleado() {
@@ -55,7 +58,86 @@ function consultarEmpleado() {
             alert("An error has occurred!!");
         }
     });
+}*/
+
+// Funcion para generar un calculo actuarial
+function generaCalculo() {
+    if ($("#empleador").val().length == 0 || $("#empleado").val().length == 0 || $("#fechaNac").val().length == 0 || $("#genero").val().length == 0 || $("#fechaIni").val().length == 0
+        || $("#fechaFin").val().length == 0 || $("#salarioBase").val().length == 0) {
+        Swal.fire({
+            text: '¡Por favor complete todos los campos!',
+            icon: 'warning',
+            confirmButtonColor: '#0f5044',
+            customClass: {
+                popup: 'my-swal-popup',
+            }
+        });
+    } else {
+        Swal.fire({
+            title: '¿Desea continuar?',
+            text: "Por favor revise que la información este correcta, una vez calculado ya no se podrá modificar el registro",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#0f5044',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Confirmar',
+            customClass: {
+                popup: 'my-swal-popup',
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    text: '¡Cálculo realizado con éxito!',
+                    icon: 'success',
+                    confirmButtonColor: '#0f5044',
+                    customClass: {
+                        popup: 'my-swal-popup',
+                    }
+                })
+            }
+        })
+        /*
+        // Inicio operacion con el back
+        const url = 'http://localhost:8085/libertadores/empleado';
+        const datos = {
+            tipoDocumentoEmpleado: $("#tipo").val(),
+            identificadorEmpleado: $("#id").val(),
+            nombresEmpleado: $("#nombres").val(),
+            apellidosEmpleado: $("#apellidos").val(),
+            direccionEmpleado: $("#direccion").val(),
+            telefonoEmpleado: $("#telefono").val(),
+            correoEmpleado: $("#correo").val(),
+            fechaNacimientoEmpleado: $("#fechaNac").val(),
+            genero: $("#genero").val(),
+        };
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(datos)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error en la solicitud');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('EMPLEADO CREADO EXITOSAMENTE!!:', data);
+                consultarEmpleado();
+                limpiarCampos();
+                window.location.reload()
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });*/
+    }
 }
+
+
+
+/*
 
 // Funcion para registrar un empleado
 function crearEmpleado() {
@@ -182,6 +264,7 @@ function buscarEmpleado(id) {
     });
 }
 
+*/
 // Funcion para filtrar tabla por medio del input 
 $(document).ready(function () {
     $("#filtroInput").on("keyup", function () {
@@ -191,4 +274,17 @@ $(document).ready(function () {
         });
     });
 });
-*/
+
+
+// Funcion para descargar de excel
+document.getElementById("exportarExcel").addEventListener("click", function () {
+    const tabla = document.getElementById("tablaCalculo");
+    const filas = tabla.getElementsByTagName("tr");
+
+    const workbook = XLSX.utils.book_new();
+    const sheet = XLSX.utils.table_to_sheet(tabla);
+    XLSX.utils.book_append_sheet(workbook, sheet, "Hoja1");  
+
+    XLSX.writeFile(workbook, "Reporte_Calculo_Actuarial.xlsx");
+});
+

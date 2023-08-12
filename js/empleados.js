@@ -52,7 +52,14 @@ function consultarEmpleado() {
             });
         },
         error: function (xhr, status) {
-            alert("An error has occurred!!");
+            Swal.fire({
+                text: '¡Ha ocurrido un error!',
+                icon: 'error',
+                confirmButtonColor: '#0f5044',
+                customClass: {
+                    popup: 'my-swal-popup',
+                }
+            });
         }
     });
 }
@@ -61,7 +68,14 @@ function consultarEmpleado() {
 function crearEmpleado() {
     if ($("#id").val().length == 0 || $("#nombres").val().length == 0 || $("#apellidos").val().length == 0 || $("#direccion").val().length == 0 || $("#telefono").val().length == 0
         || $("#correo").val().length == 0 || $("#fechaNac").val().length == 0) {
-        alert("COMPLETE TODOS LOS CAMPOS!!")
+            Swal.fire({
+                text: '¡Por favor complete todos los campos!',
+                icon: 'warning',
+                confirmButtonColor: '#0f5044',
+                customClass: {
+                    popup: 'my-swal-popup',
+                }
+            });
     } else {
         const url = 'http://localhost:8085/libertadores/empleado';
         const datos = {
@@ -89,13 +103,30 @@ function crearEmpleado() {
                 return response.json();
             })
             .then(data => {
-                alert('EMPLEADO CREADO EXITOSAMENTE!!:', data);
-                consultarEmpleado();
-                limpiarCampos();
-                window.location.reload()
+                Swal.fire({
+                    text: '¡Empleado creado exitosamente!',
+                    icon: 'success',
+                    confirmButtonColor: '#0f5044',
+                    customClass: {
+                        popup: 'my-swal-popup',
+                    }
+                })
+                    .then(() => {
+                        consultarEmpleado();
+                        limpiarCampos();
+                        window.location.reload()
+                    });
             })
             .catch(error => {
                 console.error('Error:', error);
+                Swal.fire({
+                    text: '¡Ha ocurrido un error!',
+                    icon: 'error',
+                    confirmButtonColor: '#0f5044',
+                    customClass: {
+                        popup: 'my-swal-popup',
+                    }
+                });
             });
     }
 }
@@ -104,7 +135,14 @@ function crearEmpleado() {
 function actualizarEmpleado() {
     if ($("#idUP").val().length == 0 || $("#nombresUP").val().length == 0 || $("#apellidosUP").val().length == 0 || $("#direccionUP").val().length == 0 || $("#telefonoUP").val().length == 0
         || $("#correoUP").val().length == 0 || $("#fechaNacUP").val().length == 0) {
-        alert("COMPLETE TODOS LOS CAMPOS!!")
+            Swal.fire({
+                text: '¡Por favor complete todos los campos!',
+                icon: 'warning',
+                confirmButtonColor: '#0f5044',
+                customClass: {
+                    popup: 'my-swal-popup',
+                }
+            });
     } else {
         const url = 'http://localhost:8085/libertadores/empleado/';
         var id = idBuscado;
@@ -144,12 +182,29 @@ function actualizarEmpleado() {
                 return response.json();
             })
             .then(data => {
-                alert('EMPLEADO ACTUALIZADO EXITOSAMENTE!!:', data);
-                consultarEmpleado();
-                window.location.reload()
+                Swal.fire({
+                    text: '¡Empleado actualizado exitosamente!',
+                    icon: 'success',
+                    confirmButtonColor: '#0f5044',
+                    customClass: {
+                        popup: 'my-swal-popup',
+                    },
+                })
+                    .then(() => {
+                        consultarEmpleado();
+                        window.location.reload();
+                    });
             })
             .catch(error => {
                 console.error('Error:', error);
+                Swal.fire({
+                    text: '¡Ha ocurrido un error!',
+                    icon: 'error',
+                    confirmButtonColor: '#0f5044',
+                    customClass: {
+                        popup: 'my-swal-popup',
+                    }
+                });
             });
     }
 }
@@ -173,11 +228,25 @@ function buscarEmpleado(id) {
                 $("#fechaNacUP").val(response.fechaNacimientoEmpleado);
                 $("#generoUP").val(response.genero);
             } else {
-                alert("The record was not found!!");
+                Swal.fire({
+                    text: '¡No se encontró el registro!',
+                    icon: 'error',
+                    confirmButtonColor: '#0f5044',
+                    customClass: {
+                        popup: 'my-swal-popup',
+                    }
+                });
             }
         },
         error: function (xhr, status) {
-            alert("An error has occurred");
+            Swal.fire({
+                text: '¡Ha ocurrido un error!',
+                icon: 'error',
+                confirmButtonColor: '#0f5044',
+                customClass: {
+                    popup: 'my-swal-popup',
+                }
+            });
         }
     });
 }

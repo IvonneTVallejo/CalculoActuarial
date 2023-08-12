@@ -478,8 +478,9 @@ nav.close ~ .dashboard .top{
 
 .modal-body {
     margin: 20px;
-    margin-top: 5%;
+    margin-top: -1px;
     padding: 20px;
+    margin-bottom: -10px;
 }
 
 .modal-content {
@@ -526,4 +527,10 @@ nav.close ~ .dashboard .top{
 thead {
     position: sticky;
     top: 0;
+    text-align: center;
+
+}
+
+.my-swal-popup {
+    width: 350px;
 }
