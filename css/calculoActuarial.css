@@ -544,7 +544,8 @@ nav.close~.dashboard .top {
 }
 
 .form-group label,
-.form-group input {
+.form-group input,
+.form-group select {
     display: inline-block;
     width: 300px;
     padding: 5px;
@@ -613,3 +614,28 @@ thead {
 .my-swal-popup {
     width: 600px;
 }
+
+.lista {
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    width: 500px;
+    overflow-y: auto;
+    font-size: 13.5px;
+    position: absolute;
+    top: 250px;
+    left: 125px;
+    z-index: 2;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    border-radius: 5px;
+    border-color: #000;
+    margin: 0;
+    padding: 1;
+    display: none;
+    border: 2px solid #cccccc;
+}
+
+li {
+    cursor: pointer;
+}
+

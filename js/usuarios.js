@@ -47,7 +47,7 @@ function consultarEmpleado() {
                 row.append($("<td>").text(element.fechaNacimientoEmpleado));
                 row.append($("<td>").text(element.genero));
 
-                row.append($("<td class='text-center no-padding'>").append('<button type="button" class="btn btn-warning btn-block w-100" style="font-size: 12px;" data-target="#actualizarEmpleadoModal" data-toggle="modal" onclick="buscarEmpleado(' + element.idEmpleado + ')">Editar</button>'));
+                row.append($("<td class='text-center no-padding'>").append('<button type="button" class="btn btn-outline-warning btn-block w-100" style="font-size: 12px;" data-target="#actualizarEmpleadoModal" data-toggle="modal" onclick="buscarEmpleado(' + element.idEmpleado + ')">Editar</button>'));
                 $("#contenidoTablaEmpleado").append(row);
             });
         },

@@ -586,3 +586,6 @@ thead {
     width: 350px;
 }
 
+li {
+    cursor: pointer;
+}

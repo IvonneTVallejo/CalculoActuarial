@@ -464,5 +464,8 @@ nav.close ~ .dashboard .top{
     display: inline-block;
     width: 300px;
     font-size: 15px;
+}
 
+li {
+    cursor: pointer;
 }

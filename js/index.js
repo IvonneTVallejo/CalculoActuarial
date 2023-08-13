@@ -20,7 +20,7 @@ $("#login").click(function () {
             contentType: 'application/json',
             success: function (response) {
                     $("#token").val(response.token);
-                    window.location.href = './home/home.html';
+                    window.location.href = './pages/home.html';
             }
         });
     }

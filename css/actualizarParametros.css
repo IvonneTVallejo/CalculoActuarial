@@ -458,3 +458,7 @@ nav.close ~ .dashboard .top{
         width: 100%;
     }
 }
+
+li {
+    cursor: pointer;
+}

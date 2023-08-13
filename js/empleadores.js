@@ -28,7 +28,7 @@ function consultarEmpleador() {
                 row.append($("<td>").text(element.telefonoEmpleador));
                 row.append($("<td>").text(element.correoEmpleador));
 
-                row.append($("<td class='text-center no-padding'>").append('<button type="button" class="btn btn-outline-warning btn-block w-100" style="font-size: 12px;" data-target="#actualizarEmpleadorModal" data-toggle="modal" onclick="buscarEmpleador(' + element.idEmpleador + ')">Editar</button>'));
+                row.append($("<td class='text-center no-padding'>").append('<button type="button" class="btn btn-warning btn-block w-100" style="font-size: 12px;" data-target="#actualizarEmpleadorModal" data-toggle="modal" onclick="buscarEmpleador(' + element.idEmpleador + ')">Editar</button>'));
                 $("#contenidoTablaEmpleador").append(row);
             });
         },
