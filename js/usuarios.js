@@ -12,118 +12,22 @@ $(document).ready(function() {
             });
         });
 
-            /*
+            
 // Funciones para limpiar los campos de los modales insertar y actualizar
 function limpiarCampos() {
-    $("#id").val("");
-    $("#nombres").val("");
-    $("#apellidos").val("");
-    $("#direccion").val("");
-    $("#telefono").val("");
-    $("#correo").val("");
-    $("#fechaNac").val("");
-    $("#genero").val("");
+    $("#username").val("");
+    $("#password").val("");
 }
 
 function limpiarCamposActualizados() {
-    $("#idUP").val("");
-    $("#nombresUP").val("");
-    $("#apellidosUP").val("");
-    $("#direccionUP").val("");
-    $("#telefonoUP").val("");
-    $("#correoUP").val("");
-    $("#fechaNacUP").val("");
-    $("#generoUP").val("");
+    $("#usernameUP").val("");
+    $("#passwordUP").val("");
 }
 
-
- //Funcion para hacer el registro de una nueva cuenta
- 
-$("#registrar").click(function () {
-    if ($("#emailRegistro").val() == "" || $.trim($("#passwordRegistro").val()) == "" || $.trim($("#userRegistro").val()) == "" || $.trim($("#passwordRegistro2").val()) == "") {
-        alert("Por favor complete todos los campos");
-    } else {
-        if ($("#passwordRegistro").val() != $("#passwordRegistro2").val()) {
-            alert("Las contraseñas no coinciden");
-        } else {
-            let datos = {
-                username: $("#usernameRegistro").val(),
-                password: $("#passwordRegistro").val(),
-                name: $("#userRegistro").val()
-            };
-            $.ajax({
-                url: "http://localhost:8080/api/user/new",
-                method: "POST",
-                dataType: "json",
-                data: JSON.stringify(datos),
-                contentType: "application/json",
-                Headers: {
-                    "Content-Type": "application/json"
-                },
-                statusCode: {
-                    201: function (response) {
-                        if (response.id != null) {  //Condicional para validar la creacion de una cuenta o alerta de cuenta ya existente
-                            emailBuscado = response.email;
-                            $("#emailRegistro").val("");
-                            $("#passwordRegistro").val("");
-                            $("#passwordRegistro2").val("");
-                            $("#userRegistro").val("");
-                            alert("Cuenta creada de forma correcta");
-                            window.location.reload()
-                        } else {
-                            alert("Email ya existe");
-                        }
-                    },
-                    400: function (response) {
-                        alert("An error has occurred!!");
-                    }
-                }
-            });
-        }
-    }
-});
-
-// Funcion para listar todos los empleados 
-function consultarEmpleado() {
-
-    $.ajax({
-        url: "http://localhost:8085/libertadores/empleado/general",
-        type: "GET",
-        dataType: "json",
-        success: function (response) {
-            $("#contenidoTablaEmpleado").empty();
-            response.forEach(element => {
-                var row = $("<tr>");
-                row.append($("<td>").text(element.tipoDocumentoEmpleado));
-                row.append($("<td>").text(element.identificadorEmpleado));
-                row.append($("<td>").text(element.nombresEmpleado));
-                row.append($("<td>").text(element.apellidosEmpleado));
-                row.append($("<td>").text(element.telefonoEmpleado));
-                row.append($("<td>").text(element.correoEmpleado));
-                row.append($("<td>").text(element.fechaNacimientoEmpleado));
-                row.append($("<td>").text(element.genero));
-
-                row.append($("<td class='text-center no-padding'>").append('<button type="button" class="btn btn-outline-warning btn-block w-100" style="font-size: 12px;" data-target="#actualizarEmpleadoModal" data-toggle="modal" onclick="buscarEmpleado(' + element.idEmpleado + ')">Editar</button>'));
-                $("#contenidoTablaEmpleado").append(row);
-            });
-        },
-        error: function (xhr, status) {
-            Swal.fire({
-                text: '¡Ha ocurrido un error!',
-                icon: 'error',
-                confirmButtonColor: '#0f5044',
-                customClass: {
-                    popup: 'my-swal-popup',
-                }
-            });
-        }
-    });
-}
 
 // Funcion para registrar un empleado
-function crearEmpleado() {
-    if ($("#id").val().length == 0 || $("#nombres").val().length == 0 || $("#apellidos").val().length == 0 || $("#direccion").val().length == 0 || $("#telefono").val().length == 0
-        || $("#correo").val().length == 0 || $("#fechaNac").val().length == 0) {
+function registrarNuevoUsuario() {
+    if ($("#username").val().length == 0 || $("#password").val().length == 0) {
             Swal.fire({
                 text: '¡Por favor complete todos los campos!',
                 icon: 'warning',
@@ -133,17 +37,12 @@ function crearEmpleado() {
                 }
             });
     } else {
-        const url = 'http://localhost:8085/libertadores/empleado';
+        const url = 'http://localhost:8085/libertadores/usuario';
         const datos = {
-            tipoDocumentoEmpleado: $("#tipo").val(),
-            identificadorEmpleado: $("#id").val(),
-            nombresEmpleado: $("#nombres").val(),
-            apellidosEmpleado: $("#apellidos").val(),
-            direccionEmpleado: $("#direccion").val(),
-            telefonoEmpleado: $("#telefono").val(),
-            correoEmpleado: $("#correo").val(),
-            fechaNacimientoEmpleado: $("#fechaNac").val(),
-            genero: $("#genero").val(),
+            username: $("#username").val(),
+            password: $("#password").val(),
+            tipoUsuario: $("#tipo").val(),
+            estado: "Activo",
         };
         fetch(url, {
             method: 'POST',
@@ -160,7 +59,7 @@ function crearEmpleado() {
             })
             .then(data => {
                 Swal.fire({
-                    text: '¡Empleado creado exitosamente!',
+                    text: '¡Usuario creado exitosamente!',
                     icon: 'success',
                     confirmButtonColor: '#0f5044',
                     customClass: {
@@ -168,15 +67,13 @@ function crearEmpleado() {
                     }
                 })
                     .then(() => {
-                        consultarEmpleado();
                         limpiarCampos();
-                        window.location.reload()
                     });
             })
             .catch(error => {
                 console.error('Error:', error);
                 Swal.fire({
-                    text: '¡Ha ocurrido un error!',
+                    text: 'Usuario ya existe en la base de datos!',
                     icon: 'error',
                     confirmButtonColor: '#0f5044',
                     customClass: {
@@ -187,6 +84,7 @@ function crearEmpleado() {
     }
 }
 
+/*
 // Funcion para actualizar un empleado
 function actualizarEmpleado() {
     if ($("#idUP").val().length == 0 || $("#nombresUP").val().length == 0 || $("#apellidosUP").val().length == 0 || $("#direccionUP").val().length == 0 || $("#telefonoUP").val().length == 0
@@ -268,7 +166,7 @@ function actualizarEmpleado() {
 // Funcion para buscar un empleado y poder modificarlo 
 function buscarEmpleado(id) {
     $.ajax({
-        url: "http://localhost:8085/libertadores/empleado/" + id,
+        url: "http://localhost:8085/libertadores/usuario//" + id,
         type: "GET",
         dataType: "json",
         success: function (response) {
@@ -307,15 +205,5 @@ function buscarEmpleado(id) {
     });
 }
 
-// Funcion para filtrar tabla por medio del input 
-$(document).ready(function () {
-    $("#filtroInput").on("keyup", function () {
-        var value = $(this).val().toLowerCase();
-        $("#contenidoTablaEmpleado tr").filter(function () {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-        });
-    });
-});
 
 */
-

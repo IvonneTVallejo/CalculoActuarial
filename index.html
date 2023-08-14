@@ -35,21 +35,6 @@
     </div>
   </div>
 
-  <script>
-    const pass_field = document.querySelector('.pass-key');
-    const showBtn = document.querySelector('.show');
-    showBtn.addEventListener('click', function () {
-      if (pass_field.type === "password") {
-        pass_field.type = "text";
-        showBtn.textContent = "Ocultar";
-        showBtn.style.color = "#0f5044";
-      } else {
-        pass_field.type = "password";
-        showBtn.textContent = "Mostrar";
-        showBtn.style.color = "#222";
-      }
-    });
-  </script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

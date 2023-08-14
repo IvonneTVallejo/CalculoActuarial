@@ -7,14 +7,14 @@
 $("#login").click(function () {
     let username = $("#username").val();
     let password = $("#password").val();
-    
+
     if (username === "" || $.trim(password) === "") {
     } else {
         const data = {
             username: username,
             password: password,
         };
-        
+
         $.ajax({
             url: "http://localhost:8080/libertadores/authenticate",
             method: "POST",
@@ -22,7 +22,7 @@ $("#login").click(function () {
             contentType: 'application/json',
             success: function (response) {
                 $("#token").val(response.token);
-                window.location.href = './pages/home.html';
+                window.location.href = './pages/homeAdmin.html';
             },
             error: function (xhr, status, error) {
                 if (xhr.status === 401) {
@@ -49,3 +49,16 @@ $("#login").click(function () {
     }
 });
 
+const pass_field = document.querySelector('.pass-key');
+const showBtn = document.querySelector('.show');
+showBtn.addEventListener('click', function () {
+    if (pass_field.type === "password") {
+        pass_field.type = "text";
+        showBtn.textContent = "Ocultar";
+        showBtn.style.color = "#0f5044";
+    } else {
+        pass_field.type = "password";
+        showBtn.textContent = "Mostrar";
+        showBtn.style.color = "#222";
+    }
+});

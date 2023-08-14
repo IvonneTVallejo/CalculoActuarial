@@ -80,6 +80,7 @@
                 </button>
                 <br>
                 <br>
+            </div>
 
                 <div class="container-fluid" id="nuevoUsuario" style="display: none;">
                     <div class="modal-body">
@@ -94,8 +95,8 @@
                         <div class="form-group">
                             <label for="tipo">Tipo:</label>
                             <select name="tipo" id="tipo" class="form-control">
-                                <option value="Administrador">Administrador</option>
-                                <option value="Asesor">Asesor Jurídico</option>
+                                <option value="administrador">Administrador</option>
+                                <option value="asesor">Asesor Jurídico</option>
                             </select>
                         </div>
                     </div>
@@ -108,6 +109,10 @@
                 <div class="container-fluid" id="actualizarUsuario" style="display: none;">
                     <div class="modal-body">
                         <div class="form-group">
+                            <input type="text" class="form-control" id="inputEmpleador" placeholder="Buscar...">
+                            <ul class="lista" id="listaEmpleador"></ul>
+                        </div>
+                        <div class="form-group">
                             <label for="usernameUP">Username:</label>
                             <input type="text" class="form-control" id="usernameUP">
                         </div>
@@ -118,15 +123,15 @@
                         <div class="form-group">
                             <label for="tipoUP">Tipo:</label>
                             <select name="tipoUP" id="tipoUP" class="form-control">
-                                <option value="Administrador">Administrador</option>
-                                <option value="Asesor">Asesor Jurídico</option>
+                                <option value="administrador">Administrador</option>
+                                <option value="asesor">Asesor Jurídico</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="estadoUP">Estado:</label>
                             <select name="estadoUP" id="estadoUP" class="form-control">
-                                <option value="Activo">Activo</option>
-                                <option value="Inactivo">Inactivo</option>
+                                <option value="activo">Activo</option>
+                                <option value="inactivo">Inactivo</option>
                             </select>
                         </div>
                     </div>
@@ -135,7 +140,7 @@
                             onclick="ActualizarUsuario()" style="font-size: 13px;">Actualizar</button>
                     </div>
                 </div>
-            </div>
+            
         </div>
     </section>
     <!-- Fin modal para actualizar empleador-->

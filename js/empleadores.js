@@ -96,7 +96,7 @@ function crearEmpleador() {
             .catch(error => {
                 console.error('Error:', error);
                 Swal.fire({
-                    text: '¡Ha ocurrido un error!',
+                    text: '¡Empleador ya existe en la base de datos!',
                     icon: 'error',
                     confirmButtonColor: '#0f5044',
                     customClass: {
