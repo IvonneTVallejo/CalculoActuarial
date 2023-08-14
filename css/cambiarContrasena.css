@@ -460,12 +460,34 @@ nav.close ~ .dashboard .top{
 }
 
 .form-group label,
-.form-group input {
+.form-group input,
+.form-control {
     display: inline-block;
-    width: 300px;
-    font-size: 15px;
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+.btn-success{
+    background-color: #0f5044;
+    font-size: 13.5px;    
+}
+
+.btn-success:hover{
+    background-color: #4a4d4c;
+    
 }
 
 li {
     cursor: pointer;
 }
+
+.modal-body,
+.modal-footer {
+    width: 300px;
+    font-size: 15px;
+    margin: 20px;
+    margin-top: -1px;
+    padding: 20px;
+    margin-bottom: -10px;
+}
+

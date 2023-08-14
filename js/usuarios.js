@@ -1,9 +1,18 @@
-var idBuscado = 0;
+/*var idBuscado = 0;
+*/
+$(document).ready(function() {
+            $("#btnNuevoUsuario").click(function() {
+                $("#nuevoUsuario").show();
+                $("#actualizarUsuario").hide();
+            });
 
-$(document).ready(function () {
-    consultarEmpleado();
-});
+            $("#btnActualizarUsuario").click(function() {
+                $("#actualizarUsuario").show();
+                $("#nuevoUsuario").hide();
+            });
+        });
 
+            /*
 // Funciones para limpiar los campos de los modales insertar y actualizar
 function limpiarCampos() {
     $("#id").val("");
@@ -26,6 +35,53 @@ function limpiarCamposActualizados() {
     $("#fechaNacUP").val("");
     $("#generoUP").val("");
 }
+
+
+ //Funcion para hacer el registro de una nueva cuenta
+ 
+$("#registrar").click(function () {
+    if ($("#emailRegistro").val() == "" || $.trim($("#passwordRegistro").val()) == "" || $.trim($("#userRegistro").val()) == "" || $.trim($("#passwordRegistro2").val()) == "") {
+        alert("Por favor complete todos los campos");
+    } else {
+        if ($("#passwordRegistro").val() != $("#passwordRegistro2").val()) {
+            alert("Las contraseñas no coinciden");
+        } else {
+            let datos = {
+                username: $("#usernameRegistro").val(),
+                password: $("#passwordRegistro").val(),
+                name: $("#userRegistro").val()
+            };
+            $.ajax({
+                url: "http://localhost:8080/api/user/new",
+                method: "POST",
+                dataType: "json",
+                data: JSON.stringify(datos),
+                contentType: "application/json",
+                Headers: {
+                    "Content-Type": "application/json"
+                },
+                statusCode: {
+                    201: function (response) {
+                        if (response.id != null) {  //Condicional para validar la creacion de una cuenta o alerta de cuenta ya existente
+                            emailBuscado = response.email;
+                            $("#emailRegistro").val("");
+                            $("#passwordRegistro").val("");
+                            $("#passwordRegistro2").val("");
+                            $("#userRegistro").val("");
+                            alert("Cuenta creada de forma correcta");
+                            window.location.reload()
+                        } else {
+                            alert("Email ya existe");
+                        }
+                    },
+                    400: function (response) {
+                        alert("An error has occurred!!");
+                    }
+                }
+            });
+        }
+    }
+});
 
 // Funcion para listar todos los empleados 
 function consultarEmpleado() {
@@ -260,3 +316,6 @@ $(document).ready(function () {
         });
     });
 });
+
+*/
+

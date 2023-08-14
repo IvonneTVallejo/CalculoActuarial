@@ -476,12 +476,16 @@ nav.close ~ .dashboard .top{
     background-color: #0f5044;
 }
 
-.modal-body {
+.modal-body,
+.modal-footer {
+    width: 300px;
+    font-size: 15px;
     margin: 20px;
     margin-top: -1px;
     padding: 20px;
     margin-bottom: -10px;
 }
+
 
 .modal-content {
     background-color: #ffffff;
@@ -533,8 +537,11 @@ thead {
 
 .my-swal-popup {
     width: 350px;
+    font-size: 13px;
+    font-family: 'Poppins', sans-serif;
 }
 
 li {
     cursor: pointer;
 }
+

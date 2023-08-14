@@ -39,9 +39,9 @@
                         <i class="uil uil-calculator"></i>
                         <span class="link-name">Generar Cálculo</span>
                     </a></li>
-                <li><a href="/pages/actualizarParametros.html">
+                    <li><a href="/pages/salario.html">
                         <i class="uil uil-usd-circle"></i>
-                        <span class="link-name">Actualizar parámetros</span>
+                        <span class="link-name">Ingresar SMMLV</span>
                     </a></li>
                     <li><a href="/pages/usuarios.html">
                         <i class="uil  uil-users-alt"></i>
@@ -57,7 +57,7 @@
 
 
             <ul class="logout-mode">
-                <li><a href="#">
+                <li><a href="/index.html">
                         <i class="uil uil-signout"></i>
                         <span class="link-name">Logout</span>
                     </a></li>
@@ -75,13 +75,22 @@
                     <i class="uil uil-padlock"></i>
                     <span class="text">CAMBIAR CONTRASEÑA</span>
                 </div>
-                <div class="form-group">
-                    <label for="nit">Nueva contraseña:</label>
-                    <input type="password" class="form-control" id="nit">
-                </div>
-                <div class="form-group">
-                    <label for="nit">Confirmar contraseña:</label>
-                    <input type="password" class="form-control" id="nit">
+                <div class="container-fluid" id="contrasena" >
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="password1">Nueva contraseña:</label>
+                            <input type="password" class="form-control" id="password1">
+                        </div>
+                        <div class="form-group">
+                            <label for="password2">Confirmar contraseña:</label>
+                            <input type="password" class="form-control" id="password2">
+                        </div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" id="cambiarContrasena" onclick="actualizarEmpleado()"
+                            style="font-size: 13px;">Guardar</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -92,7 +101,7 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script src="/js/script.js"></script>
-    <script src="/js/empleado.js"></script>
+    <script src="/js/cambiarContrasena.js"></script>
 </body>
 
 </html>

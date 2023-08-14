@@ -11,12 +11,12 @@
     <link href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href="/css/empleadores.css" rel="stylesheet">
+    <link href="/css/usuarios.css" rel="stylesheet">
 </head>
 
 <!-- Inicio menu de navegacion lateral -->
 
-<body>
+<body class="slider">
     <nav>
         <div class="logo-name">
             <div class="logo-image">
@@ -30,7 +30,7 @@
                         <i class="uil uil-user"></i>
                         <span class="link-name">Empleados</span>
                     </a></li>
-                <li><a href="/pages/prueba.html">
+                <li><a href="/pages/empleadores.html">
                         <i class="uil uil-building"></i>
                         <span class="link-name">Empleadores</span>
                     </a></li>
@@ -38,11 +38,11 @@
                         <i class="uil uil-calculator"></i>
                         <span class="link-name">Generar Cálculo</span>
                     </a></li>
-                <li><a href="/pages/actualizarParametros.html">
+                <li><a href="/pages/salario.html">
                         <i class="uil uil-usd-circle"></i>
-                        <span class="link-name">Actualizar parámetros</span>
+                        <span class="link-name">Ingresar SMMLV</span>
                     </a></li>
-                    <li><a href="#">
+                <li><a href="#">
                         <i class="uil  uil-users-alt"></i>
                         <span class="link-name">Gestión de Usuarios</span>
                     </a></li>
@@ -52,7 +52,7 @@
                     </a></li>
             </ul>
             <ul class="logout-mode">
-                <li><a href="#">
+                <li><a href="/index.html">
                         <i class="uil uil-signout"></i>
                         <span class="link-name">Logout</span>
                     </a></li>
@@ -65,150 +65,79 @@
     <section class="dashboard">
         <div class="top">
             <i class="uil uil-bars sidebar-toggle"></i>
-            <div class="search-box">
-                <i class="uil uil-search"></i>
-                <input type="text" id="filtroInput" placeholder="Filtrar por...">
-            </div>
         </div>
         <div class="dash-content">
             <div class="activity">
-                    <div class="title">
-                        <i class="uil uil-building"></i>
-                        <span class="text">MÓDULO USUARIOS</span>
-                    </div>
-                    <button type="button" class="btn btn-success" data-toggle="modal"
-                        data-target="#modalRegistroEmpleador">
-                        Nuevo Registro
-                    </button>
-                <br>
-                <br>
-                <div id="div1">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="table-success">
-                                <th>Tipo ID</th>
-                                <th>Identificación</th>
-                                <th>Nombre</th>
-                                <th>Teléfono</th>
-                                <th>Correo</th>
-                                <th class="col-1">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody class="cuerpo" id="contenidoTablaEmpleador">
-                        </tbody>
-                    </table>
+                <div class="title">
+                    <i class="uil uil-users-alt"></i>
+                    <span class="text">MÓDULO USUARIOS</span>
                 </div>
+                <button type="button" class="btn btn-success" id="btnNuevoUsuario">
+                    Nuevo Registro
+                </button>
+                <button type="button" class="btn btn-success" id="btnActualizarUsuario">
+                    Actualizar Registro
+                </button>
+                <br>
+                <br>
 
-                <!-- Inicio modal -->
-                <div class="modal fade" id="modalRegistroEmpleador" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel" style="color:white">Insertar Empleador
-                                </h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">
-                                        <font style="vertical-align: inherit;">
-                                            <font style="vertical-align: inherit;">×</font>
-                                        </font>
-                                    </span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                    <label for="tipo">Tipo Identificación:</label>
-                                    <select name="tipo" id="tipo" class="form-control">
-                                        <option value="NIT">Número de Identificación Tributaria</option>
-                                        <option value="CC">Cédula de Ciudadanía</option>
-                                        <option value="CE">Cédula de Extranjería</option>
-                                        <option value="TE">Tarjeta de Extranjería</option>
-                                        <option value="PAP">Pasaporte</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="nit">Identificación:</label>
-                                    <input type="text" class="form-control" id="nit">
-                                </div>
-                                <div class="form-group">
-                                    <label for="nombre">Nombre:</label>
-                                    <input type="text" class="form-control" id="nombre">
-                                </div>
-                                <div class="form-group">
-                                    <label for="telefono">Teléfono:</label>
-                                    <input type="text" class="form-control" id="telefono">
-                                </div>
-                                <div class="form-group">
-                                    <label for="correo">Correo:</label>
-                                    <input type="email" class="form-control" id="correo">
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-success" onclick="limpiarCampos()"
-                                    style="font-size: 13px;">Limpiar</button>
-                                <button type="button" class="btn btn-success" id="registrar" onclick="crearEmpleador()"
-                                    style="font-size: 13px;">Guardar</button>
-                            </div>
+                <div class="container-fluid" id="nuevoUsuario" style="display: none;">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="username">Username:</label>
+                            <input type="text" class="form-control" id="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" class="form-control" id="password">
+                        </div>
+                        <div class="form-group">
+                            <label for="tipo">Tipo:</label>
+                            <select name="tipo" id="tipo" class="form-control">
+                                <option value="Administrador">Administrador</option>
+                                <option value="Asesor">Asesor Jurídico</option>
+                            </select>
                         </div>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" id="registrarNuevoUsuario"
+                            onclick="registrarNuevoUsuario()" style="font-size: 13px;">Guardar</button>
+                    </div>
                 </div>
-                <!-- Fin modal -->
+
+                <div class="container-fluid" id="actualizarUsuario" style="display: none;">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="usernameUP">Username:</label>
+                            <input type="text" class="form-control" id="usernameUP">
+                        </div>
+                        <div class="form-group">
+                            <label for="passwordUP">Password:</label>
+                            <input type="password" class="form-control" id="passwordUP">
+                        </div>
+                        <div class="form-group">
+                            <label for="tipoUP">Tipo:</label>
+                            <select name="tipoUP" id="tipoUP" class="form-control">
+                                <option value="Administrador">Administrador</option>
+                                <option value="Asesor">Asesor Jurídico</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="estadoUP">Estado:</label>
+                            <select name="estadoUP" id="estadoUP" class="form-control">
+                                <option value="Activo">Activo</option>
+                                <option value="Inactivo">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" id="ActualizarUsuario"
+                            onclick="ActualizarUsuario()" style="font-size: 13px;">Actualizar</button>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
-    <!-- Fin tabla y modal para insertar nuevo registro -->
-
-    <!-- Inicio modal para actualizar empleador-->
-    <div class="modal fade" id="actualizarEmpleadorModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header" style="background-color: #e5be01">
-                    <h5 class="modal-title" id="exampleModalLabel">Actualizar Empleador
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">
-                            <font style="vertical-align: inherit;">
-                                <font style="vertical-align: inherit;">×</font>
-                            </font>
-                        </span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="tipoUP">Tipo Identificación:</label>
-                        <select name="tipoUP" id="tipoUP" class="form-control">
-                            <option value="NIT">Número de Identificación Tributaria</option>
-                            <option value="CC">Cédula de Ciudadanía</option>
-                            <option value="CE">Cédula de Extranjería</option>
-                            <option value="TE">Tarjeta de Extranjería</option>
-                            <option value="PAP">Pasaporte</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="nitUP">Identificación:</label>
-                        <input type="text" class="form-control" id="nitUP">
-                    </div>
-                    <div class="form-group">
-                        <label for="nombreUP">Nombre:</label>
-                        <input type="text" class="form-control" id="nombreUP">
-                    </div>
-                    <div class="form-group">
-                        <label for="telefonoUP">Teléfono:</label>
-                        <input type="text" class="form-control" id="telefonoUP">
-                    </div>
-                    <div class="form-group">
-                        <label for="correoUP">Correo:</label>
-                        <input type="email" class="form-control" id="correoUP">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-warning" id="registrar" onclick="actualizarEmpleador()"
-                        style="font-size: 13px;">Actualizar</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- Fin modal para actualizar empleador-->
 
     <!-- Import librerias JS-->
@@ -218,7 +147,7 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script src="/js/script.js"></script>
-    <script src="/js/empleadores.js"></script>
+    <script src="/js/usuarios.js"></script>
 
 </body>
 

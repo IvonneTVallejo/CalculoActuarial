@@ -533,6 +533,8 @@ thead {
 
 .my-swal-popup {
     width: 350px;
+    font-size: 13px;
+  font-family: 'Poppins',sans-serif;
 }
 
 li {

@@ -566,14 +566,14 @@ nav.close~.dashboard .top {
 }
 
 #div1 {
-    overflow-y:scroll;
-    height:350px;
-    width:100%;
+    overflow-y: scroll;
+    height: 350px;
+    width: 100%;
 }
 
 #div1 table {
-    width:100%;
-    background-color:#F8F9F9;
+    width: 100%;
+    background-color: #F8F9F9;
 }
 
 thead {
@@ -584,6 +584,8 @@ thead {
 
 .my-swal-popup {
     width: 350px;
+    font-size: 13px;
+    font-family: 'Poppins', sans-serif;
 }
 
 li {
