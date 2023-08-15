@@ -4,18 +4,6 @@ $(document).ready(function () {
     consultarEmpleado();
 });*/
 
-$("#salarioBase").on({
-    "focus": function (event) {
-        $(event.target).select();
-    },
-    "keyup": function (event) {
-        $(event.target).val(function (index, value) {
-            return value.replace(/\D/g, "")
-                .replace(/([0-9])([0-9]{2})$/, '$1.$2')
-                .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
-        });
-    }
-});
 
 // Funciones para limpiar los campos de los modales insertar y actualizar
 function limpiarCampos() {
@@ -66,7 +54,7 @@ function consultarEmpleado() {
 // Funcion para generar un calculo actuarial
 function generaCalculo() {
     if ($("#inputEmpleador").val().length == 0 || $("#inputEmpleado").val().length == 0 || $("#nombreEmpleado").val().length == 0 || $("#fechaNac").val().length == 0 || $("#genero").val().length == 0 || $("#fechaIni").val().length == 0
-    || $("#idEmpleador").val().length == 0 || $("#idEmpleado").val().length == 0 || $("#fechaFin").val().length == 0 || $("#salarioBase").val().length == 0) {
+        || $("#idEmpleador").val().length == 0 || $("#idEmpleado").val().length == 0 || $("#fechaFin").val().length == 0 || $("#salarioBase").val().length == 0) {
         Swal.fire({
             text: '¡Por favor complete todos los campos!',
             icon: 'warning',
@@ -89,52 +77,62 @@ function generaCalculo() {
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire({
-                    text: '¡Cálculo realizado con éxito!',
-                    icon: 'success',
-                    confirmButtonColor: '#0f5044',
-                    customClass: {
-                        popup: 'my-swal-popup',
-                    }
+                // Inicio operacion con el back
+                const url = 'http://localhost:8085/libertadores/calculoAc';
+                const datos = {
+                    idEmpleado: $("#idEmpleado").val(),
+                    idEmpleador: $("#idEmpleador").val(),
+                    fechaInicioNoPago: $("#fechaIni").val(),
+                    fechaCorte: $("#fechaFin").val(),
+                    fechaNacimiento: $("#fechaNac").val(),
+                    salarioBaseLiquidacion: $("#salarioBase").val(),
+                    genero: $("#genero").val(),
+                };
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(datos)
                 })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error en la solicitud');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        const totalAPagarField = document.getElementById('total');
+                        const formattedReservaActuarial = formatCurrency(data.reservaActurial); // Formatear el valor
+
+                        totalAPagarField.value = formattedReservaActuarial;
+
+                        Swal.fire({
+                            text: '¡Cálculo realizado exitosamente!',
+                            icon: 'success',
+                            confirmButtonColor: '#0f5044',
+                            customClass: {
+                                popup: 'my-swal-popup',
+                            }
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+
+                // Función para formatear el valor como moneda
+                function formatCurrency(value) {
+                    return new Intl.NumberFormat('en-US', {
+                        style: 'currency',
+                        currency: 'USD'
+                    }).format(value);
+                }
+                // Fin operacion de guardar en bd
             }
         })
-        /*
-        // Inicio operacion con el back
-        const url = 'http://localhost:8085/libertadores/empleado';
-        const datos = {
-            tipoDocumentoEmpleado: $("#tipo").val(),
-            identificadorEmpleado: $("#id").val(),
-            nombresEmpleado: $("#nombres").val(),
-            apellidosEmpleado: $("#apellidos").val(),
-            direccionEmpleado: $("#direccion").val(),
-            telefonoEmpleado: $("#telefono").val(),
-            correoEmpleado: $("#correo").val(),
-            fechaNacimientoEmpleado: $("#fechaNac").val(),
-            genero: $("#genero").val(),
-        };
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(datos)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error en la solicitud');
-                }
-                return response.json();
-            })
-            .then(data => {
-                alert('EMPLEADO CREADO EXITOSAMENTE!!:', data);
-                consultarEmpleado();
-                limpiarCampos();
-                window.location.reload()
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });*/
+
+
     }
 }
 
@@ -311,14 +309,14 @@ fetch(apiUrl)
             };
         });
 
-        searchInput.addEventListener('input', function() {
+        searchInput.addEventListener('input', function () {
             const searchTerm = searchInput.value.toLowerCase();
             autocompleteResults.innerHTML = '';
-            
+
             const filteredResults = idAndNameArray.filter(item => {
                 return item.buscar.toLowerCase().includes(searchTerm);
             });
-            
+
             filteredResults.forEach(item => {
                 const listItem = document.createElement('li');
                 listItem.textContent = item.buscar;
@@ -329,7 +327,7 @@ fetch(apiUrl)
                 });
                 autocompleteResults.appendChild(listItem);
             });
-            
+
             if (searchTerm === '') {
                 autocompleteResults.style.display = 'none';
             } else {
@@ -341,7 +339,7 @@ fetch(apiUrl)
         console.error('Error al obtener los datos:', error);
     });
 
-    // Funcion para obtener registros del empleado
+// Funcion para obtener registros del empleado
 const apiUrl2 = 'http://localhost:8085/libertadores/empleado/general';
 const searchInput2 = document.getElementById('inputEmpleado');
 const autocompleteResults2 = document.getElementById('listaEmpleado');
@@ -353,22 +351,22 @@ fetch(apiUrl2)
         const idAndNameArray2 = data.map(item => {
             return {
                 id: item.idEmpleado,
-                buscar: item.identificadorEmpleado + ' - ' + item.nombresEmpleado + ' ' +item.apellidosEmpleado,
+                buscar: item.identificadorEmpleado + ' - ' + item.nombresEmpleado + ' ' + item.apellidosEmpleado,
                 documento: item.identificadorEmpleado,
-                nombre: item.nombresEmpleado + ' ' +item.apellidosEmpleado,
+                nombre: item.nombresEmpleado + ' ' + item.apellidosEmpleado,
                 fechaNac: item.fechaNacimientoEmpleado,
-                genero: item.genero                
+                genero: item.genero
             };
         });
 
-        searchInput2.addEventListener('input', function() {
+        searchInput2.addEventListener('input', function () {
             const searchTerm2 = searchInput2.value;
             autocompleteResults2.innerHTML = '';
-            
+
             const filteredResults2 = idAndNameArray2.filter(item => {
                 return item.buscar.includes(searchTerm2);
             });
-            
+
             filteredResults2.forEach(item => {
                 const listItem2 = document.createElement('li');
                 listItem2.textContent = item.buscar;
@@ -376,13 +374,13 @@ fetch(apiUrl2)
                     searchInput2.value = item.documento;
                     idEmpleado.value = item.id;
                     nombreEmpleado.value = item.nombre;
-                    fechaNac.value= item.fechaNac;
+                    fechaNac.value = item.fechaNac;
                     genero.value = item.genero;
                     autocompleteResults2.style.display = 'none';
                 });
                 autocompleteResults2.appendChild(listItem2);
             });
-            
+
             if (searchTerm2 === '') {
                 autocompleteResults2.style.display = 'none';
             } else {
@@ -393,3 +391,5 @@ fetch(apiUrl2)
     .catch(error => {
         console.error('Error al obtener los datos:', error);
     });
+
+

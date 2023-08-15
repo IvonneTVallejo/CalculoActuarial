@@ -38,11 +38,11 @@
                         <i class="uil uil-calculator"></i>
                         <span class="link-name">Generar Cálculo</span>
                     </a></li>
-                    <li><a href="/pages/salario.html">
+                <li><a href="/pages/salario.html">
                         <i class="uil uil-usd-circle"></i>
                         <span class="link-name">Ingresar SMMLV</span>
                     </a></li>
-                    <li><a href="/pages/usuarios.html">
+                <li><a href="/pages/usuarios.html">
                         <i class="uil  uil-users-alt"></i>
                         <span class="link-name">Gestión de Usuarios</span>
                     </a></li>
@@ -76,7 +76,8 @@
                     <i class="uil uil-user"></i>
                     <span class="text">MÓDULO EMPLEADOS</span>
                 </div>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalRegistroEmpleados">
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalRegistroEmpleados"
+                    id="btnNuevoRegistro">
                     Nuevo Registro
                 </button>
                 <br>
@@ -120,6 +121,7 @@
                                 <div class="form-group">
                                     <label for="tipo">Tipo Identificación:</label>
                                     <select name="tipo" id="tipo" class="form-control">
+                                        <option value="">Seleccione un tipo</option>
                                         <option value="CC">Cédula de Ciudadanía</option>
                                         <option value="CE">Cédula de Extranjería</option>
                                         <option value="TE">Tarjeta de Extranjería</option>
@@ -158,8 +160,9 @@
                                 <div class="form-group">
                                     <label for="genero">Género:</label>
                                     <select name="genero" id="genero" class="form-control">
-                                        <option value="FEMENINO">Mujer</option>
-                                        <option value="MASCULINO">Hombre</option>
+                                        <option value="">Seleccione un tipo</option>
+                                        <option value="Femenino">Femenino</option>
+                                        <option value="Masculino">Masculino</option>
                                     </select>
                                 </div>
                             </div>
@@ -235,8 +238,8 @@
                     <div class="form-group">
                         <label for="generoUP">Género:</label>
                         <select name="generoUP" id="generoUP" class="form-control">
-                            <option value="FEMENINO">Mujer</option>
-                            <option value="MASCULINO">Hombre</option>
+                            <option value="Femenino">Femenino</option>
+                            <option value="Masculino">Masculino</option>
                         </select>
                     </div>
                 </div>

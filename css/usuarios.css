@@ -490,7 +490,7 @@ nav.close ~ .dashboard .top{
     width: 300px;
     font-size: 15px;
     margin: 20px;
-    margin-top: -1px;
+    margin-top: -25px;
     padding: 20px;
     margin-bottom: -10px;
 }
@@ -554,3 +554,22 @@ li {
     cursor: pointer;
 }
 
+.lista {
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    width: 260px;
+    overflow-y: auto;
+    font-size: 13.5px;
+    position: absolute;
+    top: 55px;
+    left: 20px;
+    z-index: 2;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 10px;
+    border-radius: 5px;
+    border-color: #000;
+    margin: 0;
+    padding: 1;
+    display: none;
+    border: 1px solid #cccccc;
+}

@@ -4,8 +4,14 @@ $(document).ready(function () {
     consultarEmpleado();
 });
 
+const botonActualizar = document.getElementById('btnNuevoRegistro');
+botonActualizar.addEventListener('click', function () {
+    limpiarCampos();
+});
+
 // Funciones para limpiar los campos de los modales insertar y actualizar
 function limpiarCampos() {
+    $("#tipo").val("");
     $("#id").val("");
     $("#nombres").val("");
     $("#apellidos").val("");
@@ -14,17 +20,6 @@ function limpiarCampos() {
     $("#correo").val("");
     $("#fechaNac").val("");
     $("#genero").val("");
-}
-
-function limpiarCamposActualizados() {
-    $("#idUP").val("");
-    $("#nombresUP").val("");
-    $("#apellidosUP").val("");
-    $("#direccionUP").val("");
-    $("#telefonoUP").val("");
-    $("#correoUP").val("");
-    $("#fechaNacUP").val("");
-    $("#generoUP").val("");
 }
 
 // Funcion para listar todos los empleados 
@@ -67,7 +62,7 @@ function consultarEmpleado() {
 // Funcion para registrar un empleado
 function crearEmpleado() {
     if ($("#id").val().length == 0 || $("#nombres").val().length == 0 || $("#apellidos").val().length == 0 || $("#direccion").val().length == 0 || $("#telefono").val().length == 0
-        || $("#correo").val().length == 0 || $("#fechaNac").val().length == 0) {
+        || $("#correo").val().length == 0 || $("#fechaNac").val().length == 0 || $("#tipo").val() == "" || $("#genero").val() == "") {
             Swal.fire({
                 text: '¡Por favor complete todos los campos!',
                 icon: 'warning',

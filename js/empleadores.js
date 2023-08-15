@@ -4,8 +4,15 @@ $(document).ready(function () {
     consultarEmpleador();
 });
 
+
+const botonActualizar = document.getElementById('btnNuevoRegistro');
+botonActualizar.addEventListener('click', function () {
+    limpiarCampos();
+});
+
 // Funciones para limpiar los campos de los modales insertar y actualizar
 function limpiarCampos() {
+    $("#tipo").val("");
     $("#nit").val("");
     $("#nombre").val("");
     $("#telefono").val("");
@@ -47,7 +54,7 @@ function consultarEmpleador() {
 
 // Funcion para registrar un empleador
 function crearEmpleador() {
-    if ($("#nit").val().length == 0 || $("#nombre").val().length == 0 || $("#telefono").val().length == 0 || $("#correo").val().length == 0) {
+    if ($("#nit").val().length == 0 || $("#nombre").val().length == 0 || $("#telefono").val().length == 0 || $("#correo").val().length == 0 || $("#tipo").val() == "") {
         Swal.fire({
             text: '¡Por favor complete todos los campos!',
             icon: 'warning',
