@@ -4,6 +4,26 @@ $(document).ready(function () {
     consultarEmpleado();
 });*/
 
+const botonNUevoCalculo = document.getElementById('btnNUevoCalculo');
+botonNUevoCalculo.addEventListener('click', function () {
+    limpiarCampos();
+});
+
+$("#salarioBase").on({
+    "focus": function (event) {
+        $(event.target).select();
+    },
+    "keyup": function (event) {
+        $(event.target).val(function (index, value) {
+            value = value.replace(/\D/g, "")
+                .replace(/([0-9])([0-9]{2})$/, '$1.$2')
+                .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
+
+            return "$ " + value; // Agregar el signo de pesos al inicio
+        });
+    }
+});
+
 
 // Funciones para limpiar los campos de los modales insertar y actualizar
 function limpiarCampos() {
@@ -64,75 +84,87 @@ function generaCalculo() {
             }
         });
     } else {
-        Swal.fire({
-            title: '¿Desea continuar?',
-            text: "Por favor revise que la información este correcta, una vez calculado ya no se podrá modificar el registro",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#0f5044',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Confirmar',
-            customClass: {
-                popup: 'my-swal-popup',
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Inicio operacion con el back
-                const url = 'http://localhost:8085/libertadores/calculoAc';
-                const datos = {
-                    idEmpleado: $("#idEmpleado").val(),
-                    idEmpleador: $("#idEmpleador").val(),
-                    fechaInicioNoPago: $("#fechaIni").val(),
-                    fechaCorte: $("#fechaFin").val(),
-                    fechaNacimiento: $("#fechaNac").val(),
-                    salarioBaseLiquidacion: $("#salarioBase").val(),
-                    genero: $("#genero").val(),
-                };
+        const fechaInicio = new Date(document.getElementById('fechaIni').value);
+        const fechaFin = new Date(document.getElementById('fechaFin').value);
 
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(datos)
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Error en la solicitud');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        const totalAPagarField = document.getElementById('total');
-                        const formattedReservaActuarial = formatCurrency(data.reservaActurial); // Formatear el valor
-
-                        totalAPagarField.value = formattedReservaActuarial;
-
-                        Swal.fire({
-                            text: '¡Cálculo realizado exitosamente!',
-                            icon: 'success',
-                            confirmButtonColor: '#0f5044',
-                            customClass: {
-                                popup: 'my-swal-popup',
-                            }
-                        });
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-
-                // Función para formatear el valor como moneda
-                function formatCurrency(value) {
-                    return new Intl.NumberFormat('en-US', {
-                        style: 'currency',
-                        currency: 'USD'
-                    }).format(value);
+        if (fechaFin <= fechaInicio) {
+            Swal.fire({
+                text: '¡La fecha final debe ser mayor que la fecha inicial!',
+                icon: 'warning',
+                confirmButtonColor: '#0f5044',
+                customClass: {
+                    popup: 'my-swal-popup',
                 }
-                // Fin operacion de guardar en bd
-            }
-        })
+            });
+        } else {
+            Swal.fire({
+                title: '¿Desea continuar?',
+                text: "Por favor revise que la información este correcta, una vez calculado ya no se podrá modificar el registro",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#0f5044',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Confirmar',
+                customClass: {
+                    popup: 'my-swal-popup',
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Inicio operacion con el back
+                    const url = 'http://localhost:8085/libertadores/calculoAc';
+                    const datos = {
+                        idEmpleado: $("#idEmpleado").val(),
+                        idEmpleador: $("#idEmpleador").val(),
+                        fechaInicioNoPago: $("#fechaIni").val(),
+                        fechaCorte: $("#fechaFin").val(),
+                        fechaNacimiento: $("#fechaNac").val(),
+                        salarioBaseLiquidacion: parseFloat($("#salarioBase").val().replace(/[^\d.-]/g, '')), // Extraer solo números
+                        genero: $("#genero").val(),
+                    };
 
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(datos)
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error en la solicitud');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const totalAPagarField = document.getElementById('total');
+                            const formattedReservaActuarial = formatCurrency(data.reservaActurial); // Formatear el valor
 
+                            totalAPagarField.value = formattedReservaActuarial;
+
+                            Swal.fire({
+                                text: '¡Cálculo realizado exitosamente!',
+                                icon: 'success',
+                                confirmButtonColor: '#0f5044',
+                                customClass: {
+                                    popup: 'my-swal-popup',
+                                }
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+
+                    // Función para formatear el valor como moneda
+                    function formatCurrency(value) {
+                        return new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'USD'
+                        }).format(value);
+                    }
+                }
+            })
+            
+        }
     }
 }
 
@@ -391,5 +423,4 @@ fetch(apiUrl2)
     .catch(error => {
         console.error('Error al obtener los datos:', error);
     });
-
 
