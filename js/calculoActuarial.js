@@ -36,8 +36,9 @@ function limpiarCampos() {
     $("#genero").val("");
     $("#fechaIni").val("");
     $("#fechaFin").val("");
-    $("#salarioBase").val("$ ");
+    $("#salarioBase").val(" ");
     $("#total").val("$ ");
+    $("#btnGenerarCalculo").prop("disabled", false);  
 }
 /*
 
@@ -148,7 +149,11 @@ function generaCalculo() {
                                 customClass: {
                                     popup: 'my-swal-popup',
                                 }
-                            });
+                            })
+                                .then(() => {
+                                    generatePDF();
+                                    $("#btnGenerarCalculo").prop("disabled", true); 
+                                });
                         })
                         .catch(error => {
                             console.error('Error:', error);
@@ -163,7 +168,7 @@ function generaCalculo() {
                     }
                 }
             })
-            
+
         }
     }
 }
@@ -173,104 +178,8 @@ function generaCalculo() {
 
 /*
 
-// Funcion para registrar un empleado
-function crearEmpleado() {
-    if ($("#id").val().length == 0 || $("#nombres").val().length == 0 || $("#apellidos").val().length == 0 || $("#direccion").val().length == 0 || $("#telefono").val().length == 0
-        || $("#correo").val().length == 0 || $("#fechaNac").val().length == 0) {
-        alert("COMPLETE TODOS LOS CAMPOS!!")
-    } else {
-        const url = 'http://localhost:8085/libertadores/empleado';
-        const datos = {
-            tipoDocumentoEmpleado: $("#tipo").val(),
-            identificadorEmpleado: $("#id").val(),
-            nombresEmpleado: $("#nombres").val(),
-            apellidosEmpleado: $("#apellidos").val(),
-            direccionEmpleado: $("#direccion").val(),
-            telefonoEmpleado: $("#telefono").val(),
-            correoEmpleado: $("#correo").val(),
-            fechaNacimientoEmpleado: $("#fechaNac").val(),
-            genero: $("#genero").val(),
-        };
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(datos)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error en la solicitud');
-                }
-                return response.json();
-            })
-            .then(data => {
-                alert('EMPLEADO CREADO EXITOSAMENTE!!:', data);
-                consultarEmpleado();
-                limpiarCampos();
-                window.location.reload()
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }
-}
 
-// Funcion para actualizar un empleado
-function actualizarEmpleado() {
-    if ($("#idUP").val().length == 0 || $("#nombresUP").val().length == 0 || $("#apellidosUP").val().length == 0 || $("#direccionUP").val().length == 0 || $("#telefonoUP").val().length == 0
-        || $("#correoUP").val().length == 0 || $("#fechaNacUP").val().length == 0) {
-        alert("COMPLETE TODOS LOS CAMPOS!!")
-    } else {
-        const url = 'http://localhost:8085/libertadores/empleado/';
-        var id = idBuscado;
-        var tipo = $("#tipoUP").val();
-        var iden = $("#idUP").val();
-        var nombres = $("#nombresUP").val();
-        var apellidos = $("#apellidosUP").val();
-        var direccion = $("#direccionUP").val();
-        var telefono = $("#telefonoUP").val();
-        var correo = $("#correoUP").val();
-        var fechaNac = $("#fechaNacUP").val();
-        var genero = $("#generoUP").val();
-        var datos = {
-            idEmpleado: id,
-            tipoDocumentoEmpleado: tipo,
-            identificadorEmpleado: iden,
-            nombresEmpleado: nombres,
-            apellidosEmpleado: apellidos,
-            direccionEmpleado: direccion,
-            telefonoEmpleado: telefono,
-            correoEmpleado: correo,
-            fechaNacimientoEmpleado: fechaNac,
-            genero: genero,
-
-        };
-        fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(datos)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error en la solicitud');
-                }
-                return response.json();
-            })
-            .then(data => {
-                alert('EMPLEADO ACTUALIZADO EXITOSAMENTE!!:', data);
-                consultarEmpleado();
-                window.location.reload()
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }
-}
-
-// Funcion para buscar un empleado y poder modificarlo 
+// Funcion para poder anular un registro
 function buscarEmpleado(id) {
     $.ajax({
         url: "http://localhost:8085/libertadores/empleado/" + id,
@@ -424,3 +333,98 @@ fetch(apiUrl2)
         console.error('Error al obtener los datos:', error);
     });
 
+function generatePDF() {
+
+    var nombreEmpleado = $("#nombreEmpleado").val();
+    var docEmpleado = $("#inputEmpleado").val();
+    var empleador = $("#inputEmpleador").val();
+    var fechaNac = $("#fechaNac").val();
+    var fechaIni = $("#fechaIni").val();
+    var fechaFin = $("#fechaFin").val();
+    var genero = $("#genero").val();
+    var salarioBase = $("#salarioBase").val();
+    var total = $("#total").val();
+
+
+    var props = {
+        outputType: "save",
+        returnJsPDFDocObject: true,
+        fileName: "Reporte Cálculo Actuarial",
+        orientationLandscape: false,
+        compress: true,
+        logo: {
+            src: "/Images/avatar.png",
+            width: 50, //aspect ratio = width/height
+            height: 30,
+            margin: {
+                top: 0, //negative or positive num, from the current position
+                left: 0 //negative or positive num, from the current position
+            }
+        },
+        business: {
+            name: "CONSULTORIO JURÍDICO",
+            address: "Calle 63a # 16-38",
+            phone: "Sede Proyección Social",
+            email: "cjuridico@libertadores.edu.co",
+            email_1: "2544750 Ext. 3207-3209",
+            website: "https://www.ulibertadores.edu.co › proyeccion-social",
+        },
+        contact: {
+            label: "Cálculo de Reserva Actuarial",
+            name: "Empleado: " + nombreEmpleado,
+            address: "Identificación: " + docEmpleado,
+            phone: "Fecha Nacimiento: " + fechaNac,
+            email: "Empleador: " + empleador,
+            // otherInfo: "www.website.al", // Puedes agregar esto si es necesario
+        },
+        invoice: {
+            headerBorder: true,
+            tableBodyBorder: true,
+            header: [
+                {
+                    title: "#",
+                    style: {
+                        width: 10
+                    }
+                },
+                {
+                    title: "Fecha Inicial",
+                    style: {
+                        width: 40
+                    }
+                },
+                {
+                    title: "Fecha Final",
+                    style: {
+                        width: 40
+                    }
+                },
+                { title: "Género" },
+                { title: "Salario Base" },
+                { title: "Total a Pagar" }
+            ],
+            table: Array.from(Array(1), (item, index) => ([
+                index + 1,
+                fechaIni,
+                fechaFin,
+                genero,
+                salarioBase,
+                total,
+
+            ])),
+
+            invDescLabel: "Consideraciones para tener en cuenta",
+            invDesc: "-Los datos ingresados en este aplicativo son confidenciales y seran usados solo para el presente cálculo" +
+                "\n-Los resultados generados son una proyección y, por lo tanto, corresponde a una orientacion sobre el eventual monto de la Reserva Actuarial, por tanto podria variar" +
+                "\n-Esta simulación se efectua teniendo en cuenta el salario reportado por el empleado" +
+                "\n-La anterior información no compromete a la Fundación Universitaria Los Libertadores en caso de diferir en el resultado",
+        },
+        footer: {
+            text: "Fundacion Universitaria Los Libertadores - Todos los derechos reservados",
+        },
+        pageEnable: true,
+        pageLabel: "Page ",
+    };
+
+    var pdfObject = jsPDFInvoiceTemplate.default(props);
+}

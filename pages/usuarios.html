@@ -36,7 +36,7 @@
                     </a></li>
                 <li><a href="/pages/calculoActuarial.html">
                         <i class="uil uil-calculator"></i>
-                        <span class="link-name">Generar Cálculo</span>
+                        <span class="link-name">Cálculo Actuarial</span>
                     </a></li>
                 <li><a href="/pages/salario.html">
                         <i class="uil uil-usd-circle"></i>
@@ -73,10 +73,13 @@
                     <span class="text">MÓDULO USUARIOS</span>
                 </div>
                 <button type="button" class="btn btn-success" id="btnNuevoUsuario">
-                    Nuevo Registro
+                    Crear Usuario
                 </button>
                 <button type="button" class="btn btn-success" id="btnActualizarUsuario">
-                    Actualizar Registro
+                    Actualizar Usuario
+                </button>
+                <button type="button" class="btn btn-success" id="btnCambiarContrasena">
+                    Cambiar contraseña
                 </button>
                 <br>
                 <br>
@@ -121,10 +124,6 @@
                             <input type="text" class="form-control" id="usernameUP" disabled>
                         </div>
                         <div class="form-group">
-                            <label for="passwordUP">Password:</label>
-                            <input type="text" class="form-control" id="passwordUP">
-                        </div>
-                        <div class="form-group">
                             <label for="tipoUP">Tipo:</label>
                             <select name="tipoUP" id="tipoUP" class="form-control">
                                 <option value="">Seleccione un tipo</option>
@@ -144,6 +143,30 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" id="actualizarUsuario"
                             onclick="actualizarUsuario()" style="font-size: 13px;">Actualizar</button>
+                    </div>
+                </div>
+
+                <div class="container-fluid" id="actualizarContrasena" style="display: none;">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="inputUsuario" placeholder="Buscar...">
+                            <ul class="lista" id="listaUsuario"></ul>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" id="idUP">
+                        </div>
+                        <div class="form-group">
+                            <label for="usernameUP">Username:</label>
+                            <input type="text" class="form-control" id="usernameUP" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="passwordUP">Password:</label>
+                            <input type="text" class="form-control" id="passwordUP">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" id="actualizarUsuario"
+                            onclick="cambiarrContrasena()" style="font-size: 13px;">Actualizar</button>
                     </div>
                 </div>
             

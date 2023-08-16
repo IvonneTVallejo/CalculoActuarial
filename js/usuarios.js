@@ -4,10 +4,18 @@ $(document).ready(function () {
     $("#btnNuevoUsuario").click(function () {
         $("#nuevoUsuario").show();
         $("#actualizarUsuario").hide();
+        $("#actualizarContrasena").hide();
     });
 
     $("#btnActualizarUsuario").click(function () {
         $("#actualizarUsuario").show();
+        $("#nuevoUsuario").hide();
+        $("#actualizarContrasena").hide();
+    });
+
+    $("#btnCambiarContrasena").click(function () {
+        $("#actualizarContrasena").show();
+        $("#actualizarUsuario").hide();
         $("#nuevoUsuario").hide();
     });
 });

@@ -1,80 +1,112 @@
 /*var idBuscado = 0;
-
+*/
 $(document).ready(function () {
-    consultarEmpleado();
+    consultarSalarios();
 });
 
-// Funciones para limpiar los campos de los modales insertar y actualizar
+
+
+
+$("#salario").on({
+    "focus": function (event) {
+        $(event.target).select();
+    },
+    "keyup": function (event) {
+        $(event.target).val(function (index, value) {
+            value = value.replace(/\D/g, "")
+                .replace(/([0-9])([0-9]{2})$/, '$1.$2')
+                .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
+
+            return "$ " + value; // Agregar el signo de pesos al inicio
+        });
+    }
+});
+
+// Funciones para limpiar los campos 
 function limpiarCampos() {
-    $("#id").val("");
-    $("#nombres").val("");
-    $("#apellidos").val("");
-    $("#direccion").val("");
-    $("#telefono").val("");
-    $("#correo").val("");
-    $("#fechaNac").val("");
-    $("#genero").val("");
+    $("#ano").val("");
+    $("#salario").val("");
 }
 
-function limpiarCamposActualizados() {
-    $("#idUP").val("");
-    $("#nombresUP").val("");
-    $("#apellidosUP").val("");
-    $("#direccionUP").val("");
-    $("#telefonoUP").val("");
-    $("#correoUP").val("");
-    $("#fechaNacUP").val("");
-    $("#generoUP").val("");
-}
 
 // Funcion para listar todos los empleados 
-function consultarEmpleado() {
+function consultarSalarios() {
 
     $.ajax({
-        url: "http://localhost:8085/libertadores/empleado/general",
+        url: "http://localhost:8085/libertadores/salario/general",
         type: "GET",
         dataType: "json",
         success: function (response) {
-            $("#contenidoTablaEmpleado").empty();
+            response.sort(function(a, b) {
+                return b.ano - a.ano;
+            });
+
+            $("#contenidoTablaSalario").empty();
             response.forEach(element => {
                 var row = $("<tr>");
-                row.append($("<td>").text(element.tipoDocumentoEmpleado));
-                row.append($("<td>").text(element.identificadorEmpleado));
-                row.append($("<td>").text(element.nombresEmpleado));
-                row.append($("<td>").text(element.apellidosEmpleado));
-                row.append($("<td>").text(element.telefonoEmpleado));
-                row.append($("<td>").text(element.correoEmpleado));
-                row.append($("<td>").text(element.fechaNacimientoEmpleado));
-                row.append($("<td>").text(element.genero));
-
-                row.append($("<td class='text-center no-padding'>").append('<button type="button" class="btn btn-outline-warning btn-block w-100" style="font-size: 12px;" data-target="#actualizarEmpleadoModal" data-toggle="modal" onclick="buscarEmpleado(' + element.idEmpleado + ')">Editar</button>'));
-                $("#contenidoTablaEmpleado").append(row);
+                row.append($("<td>").text(element.ano));
+                
+                // Formatear el campo salario con decimales y el símbolo "$"
+                var formattedSalary = element.salario.toLocaleString('en-US', {
+                    style: 'currency',
+                    currency: 'USD'
+                });
+                row.append($("<td>").text(formattedSalary));
+                $("#contenidoTablaSalario").append(row);
             });
         },
         error: function (xhr, status) {
-            alert("An error has occurred!!");
+            Swal.fire({
+                text: '¡Ha ocurrido un error!',
+                icon: 'error',
+                confirmButtonColor: '#0f5044',
+                customClass: {
+                    popup: 'my-swal-popup',
+                }
+            });
         }
     });
 }
 
+
 // Funcion para registrar un empleado
-function crearEmpleado() {
-    if ($("#id").val().length == 0 || $("#nombres").val().length == 0 || $("#apellidos").val().length == 0 || $("#direccion").val().length == 0 || $("#telefono").val().length == 0
-        || $("#correo").val().length == 0 || $("#fechaNac").val().length == 0) {
-        alert("COMPLETE TODOS LOS CAMPOS!!")
+function insertarSalario() {
+    if ($("#ano").val().length === 0 || $("#salario").val().length === 0) {
+        Swal.fire({
+            text: '¡Por favor complete todos los campos!',
+            icon: 'warning',
+            confirmButtonColor: '#0f5044',
+            customClass: {
+                popup: 'my-swal-popup',
+            }
+        });
     } else {
-        const url = 'http://localhost:8085/libertadores/empleado';
+        const url = 'http://localhost:8085/libertadores/salario';
+
+        // Obtener el año actual
+        const year = new Date().getFullYear();
+
+        // Formatear el salario y eliminar caracteres no numéricos
+        const salarioFormateado = parseFloat($("#salario").val().replace(/[^0-9.]/g, ''));
+
+        // Comparar el año ingresado con el año actual
+        if (parseInt($("#ano").val()) !== year) {
+            Swal.fire({
+                text: '¡El año debe ser el año actual!',
+                icon: 'error',
+                confirmButtonColor: '#0f5044',
+                customClass: {
+                    popup: 'my-swal-popup',
+                }
+            });
+            return; // Detener el proceso
+        }
+
         const datos = {
-            tipoDocumentoEmpleado: $("#tipo").val(),
-            identificadorEmpleado: $("#id").val(),
-            nombresEmpleado: $("#nombres").val(),
-            apellidosEmpleado: $("#apellidos").val(),
-            direccionEmpleado: $("#direccion").val(),
-            telefonoEmpleado: $("#telefono").val(),
-            correoEmpleado: $("#correo").val(),
-            fechaNacimientoEmpleado: $("#fechaNac").val(),
-            genero: $("#genero").val(),
+            ano: year, // Usar el año actual
+            salario: salarioFormateado,
         };
+
         fetch(url, {
             method: 'POST',
             headers: {
@@ -89,106 +121,44 @@ function crearEmpleado() {
                 return response.json();
             })
             .then(data => {
-                alert('EMPLEADO CREADO EXITOSAMENTE!!:', data);
-                consultarEmpleado();
-                limpiarCampos();
-                window.location.reload()
+                Swal.fire({
+                    text: '¡Empleado creado exitosamente!',
+                    icon: 'success',
+                    confirmButtonColor: '#0f5044',
+                    customClass: {
+                        popup: 'my-swal-popup',
+                    }
+                })
+                    .then(() => {
+                        consultarSalarios();
+                        limpiarCampos();
+                        window.location.reload();
+                    });
             })
             .catch(error => {
                 console.error('Error:', error);
+                Swal.fire({
+                    text: '¡Salario ya existe en la base de datos!',
+                    icon: 'error',
+                    confirmButtonColor: '#0f5044',
+                    customClass: {
+                        popup: 'my-swal-popup',
+                    }
+                });
             });
     }
 }
 
-// Funcion para actualizar un empleado
-function actualizarEmpleado() {
-    if ($("#idUP").val().length == 0 || $("#nombresUP").val().length == 0 || $("#apellidosUP").val().length == 0 || $("#direccionUP").val().length == 0 || $("#telefonoUP").val().length == 0
-        || $("#correoUP").val().length == 0 || $("#fechaNacUP").val().length == 0) {
-        alert("COMPLETE TODOS LOS CAMPOS!!")
-    } else {
-        const url = 'http://localhost:8085/libertadores/empleado/';
-        var id = idBuscado;
-        var tipo = $("#tipoUP").val();
-        var iden = $("#idUP").val();
-        var nombres = $("#nombresUP").val();
-        var apellidos = $("#apellidosUP").val();
-        var direccion = $("#direccionUP").val();
-        var telefono = $("#telefonoUP").val();
-        var correo = $("#correoUP").val();
-        var fechaNac = $("#fechaNacUP").val();
-        var genero = $("#generoUP").val();
-        var datos = {
-            idEmpleado: id,
-            tipoDocumentoEmpleado: tipo,
-            identificadorEmpleado: iden,
-            nombresEmpleado: nombres,
-            apellidosEmpleado: apellidos,
-            direccionEmpleado: direccion,
-            telefonoEmpleado: telefono,
-            correoEmpleado: correo,
-            fechaNacimientoEmpleado: fechaNac,
-            genero: genero,
-
-        };
-        fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(datos)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error en la solicitud');
-                }
-                return response.json();
-            })
-            .then(data => {
-                alert('EMPLEADO ACTUALIZADO EXITOSAMENTE!!:', data);
-                consultarEmpleado();
-                window.location.reload()
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }
-}
-
-// Funcion para buscar un empleado y poder modificarlo 
-function buscarEmpleado(id) {
-    $.ajax({
-        url: "http://localhost:8085/libertadores/empleado/" + id,
-        type: "GET",
-        dataType: "json",
-        success: function (response) {
-            if (response.idEmpleado != null) {
-                idBuscado = response.idEmpleado;
-                $("#tipoUP").val(response.tipoDocumentoEmpleado);
-                $("#idUP").val(response.identificadorEmpleado);
-                $("#nombresUP").val(response.nombresEmpleado);
-                $("#apellidosUP").val(response.apellidosEmpleado);
-                $("#direccionUP").val(response.direccionEmpleado);
-                $("#telefonoUP").val(response.telefonoEmpleado);
-                $("#correoUP").val(response.correoEmpleado);
-                $("#fechaNacUP").val(response.fechaNacimientoEmpleado);
-                $("#generoUP").val(response.genero);
-            } else {
-                alert("The record was not found!!");
-            }
-        },
-        error: function (xhr, status) {
-            alert("An error has occurred");
-        }
-    });
-}
 
 // Funcion para filtrar tabla por medio del input 
 $(document).ready(function () {
     $("#filtroInput").on("keyup", function () {
-        var value = $(this).val().toLowerCase();
-        $("#contenidoTablaEmpleado tr").filter(function () {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        var yearFilter = $(this).val().toLowerCase();
+
+        $("#contenidoTablaSalario tr").each(function () {
+            var yearCell = $(this).find("td:eq(0)").text().toLowerCase();
+            var isVisible = yearCell.indexOf(yearFilter) > -1;
+            $(this).toggle(isVisible);
         });
     });
 });
-*/

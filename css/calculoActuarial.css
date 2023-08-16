@@ -647,3 +647,7 @@ li {
     cursor: pointer;
 }
 
+#btnGenerarCalculo[disabled] {
+    background-color: gray;
+    cursor: not-allowed;
+}

@@ -24,12 +24,16 @@ function limpiarCampos() {
 
 // Funcion para listar todos los empleados 
 function consultarEmpleado() {
-
     $.ajax({
         url: "http://localhost:8085/libertadores/empleado/general",
         type: "GET",
         dataType: "json",
         success: function (response) {
+            // Ordenar el array response en reverso basado en el ID
+            response.sort(function(a, b) {
+                return b.idEmpleado - a.idEmpleado;
+            });
+
             $("#contenidoTablaEmpleado").empty();
             response.forEach(element => {
                 var row = $("<tr>");
@@ -58,6 +62,7 @@ function consultarEmpleado() {
         }
     });
 }
+
 
 // Funcion para registrar un empleado
 function crearEmpleado() {

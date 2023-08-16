@@ -35,7 +35,7 @@
                     </a></li>
                 <li><a href="#">
                         <i class="uil uil-calculator"></i>
-                        <span class="link-name">Generar Cálculo</span>
+                        <span class="link-name">Cálculo Actuarial</span>
                     </a></li>
                     <li><a href="/pages/salario.html">
                         <i class="uil uil-usd-circle"></i>
@@ -71,10 +71,10 @@
             <div class="activity">
                 <div class="title">
                     <i class="uil uil-calculator"></i>
-                    <span class="text">GENERAR CÁLCULO</span>
+                    <span class="text">CÁLCULO ACTUARIAL</span>
                 </div>
                 <button id="btnNUevoCalculo" type="button" class="btn btn-success" data-toggle="modal" data-target="#modalRegistroCalculo">
-                    Nuevo Cálculo
+                    Generar Cálculo
                 </button>
                 <button type="button" id="exportarExcel" class="btn btn-success">
                     Descargar Excel
@@ -180,7 +180,7 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-success" onclick="limpiarCampos()"
                                     style="font-size: 13px;">Limpiar</button>
-                                <button type="button" class="btn btn-success" id="registrar" onclick="generaCalculo()"
+                                <button type="button" class="btn btn-success" id="btnGenerarCalculo" onclick="generaCalculo()"
                                     style="font-size: 13px;">Calcular y Guardar</button>
                             </div>
                         </div>
@@ -192,6 +192,7 @@
     </section>
 
     <!-- Import librerias JS-->
+    <script src="https://unpkg.com/jspdf-invoice-template@1.4.0/dist/index.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
