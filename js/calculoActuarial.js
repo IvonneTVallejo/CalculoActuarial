@@ -1,8 +1,8 @@
-/*var idBuscado = 0;
+var idBuscado = 0;
 
 $(document).ready(function () {
-    consultarEmpleado();
-});*/
+    consultarCalculo();
+});
 
 const botonNUevoCalculo = document.getElementById('btnNUevoCalculo');
 botonNUevoCalculo.addEventListener('click', function () {
@@ -36,41 +36,119 @@ function limpiarCampos() {
     $("#genero").val("");
     $("#fechaIni").val("");
     $("#fechaFin").val("");
-    $("#salarioBase").val(" ");
+    $("#salarioBase").val("");
     $("#total").val("$ ");
-    $("#btnGenerarCalculo").prop("disabled", false);  
+    $("#btnGenerarCalculo").prop("disabled", false);
 }
-/*
+
+function obtenerNombreEmpleador(idEmpleador, callback) {
+    $.ajax({
+        url: 'http://localhost:8085/libertadores/empleador/' + idEmpleador,
+        method: 'GET',
+        success: function (responseNombre) {
+            callback(responseNombre.nombreEmpleador);
+        },
+        error: function () {
+            callback('Nombre no disponible');
+        }
+    });
+}
+
+function obtenerNombreyDocumentoEmpleado(idEmpleado, callback) {
+    $.ajax({
+        url: 'http://localhost:8085/libertadores/empleado/' + idEmpleado,
+        method: 'GET',
+        success: function (responseNombreyDocumento) {
+            callback(responseNombreyDocumento.nombresEmpleado, responseNombreyDocumento.apellidosEmpleado, responseNombreyDocumento.identificadorEmpleado);
+        },
+        error: function () {
+            callback('Nombre no disponible');
+        }
+    });
+}
+
+function formatCurrency(value) {
+    return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD'
+    }).format(value);
+}
+
 
 // Funcion para listar todos los empleados 
-function consultarEmpleado() {
-
+function consultarCalculo() {
     $.ajax({
-        url: "http://localhost:8085/libertadores/empleado/general",
+        url: "http://localhost:8085/libertadores/calculoAc/general",
         type: "GET",
         dataType: "json",
         success: function (response) {
-            $("#contenidoTablaEmpleado").empty();
-            response.forEach(element => {
-                var row = $("<tr>");
-                row.append($("<td>").text(element.tipoDocumentoEmpleado));
-                row.append($("<td>").text(element.identificadorEmpleado));
-                row.append($("<td>").text(element.nombresEmpleado));
-                row.append($("<td>").text(element.apellidosEmpleado));
-                row.append($("<td>").text(element.telefonoEmpleado));
-                row.append($("<td>").text(element.correoEmpleado));
-                row.append($("<td>").text(element.fechaNacimientoEmpleado));
-                row.append($("<td>").text(element.genero));
 
-                row.append($("<td class='text-center no-padding'>").append('<button type="button" class="btn btn-outline-warning btn-block w-100" style="font-size: 12px;" data-target="#actualizarEmpleadoModal" data-toggle="modal" onclick="buscarEmpleado(' + element.idEmpleado + ')">Editar</button>'));
-                $("#contenidoTablaEmpleado").append(row);
+            response.sort(function (a, b) {
+                return b.idCalculo - a.idCalculo;
+            });
+
+            $("#contenidoTablaCalculo").empty();
+            response.forEach(element => {
+                obtenerNombreEmpleador(element.idEmpleador, function (nombreEmpleador) {
+                    obtenerNombreyDocumentoEmpleado(element.idEmpleado, function (nombresEmpleado, apellidosEmpleado, identificadorEmpleado) {
+                        var row = $("<tr>");
+                        row.append($("<td>").text(element.fechaRegistro.slice(0, 10)));
+                        row.append($("<td>").text(nombreEmpleador));
+                        row.append($("<td>").text(nombresEmpleado + ' ' + apellidosEmpleado));
+                        row.append($("<td>").text(identificadorEmpleado));
+                        row.append($("<td>").text(element.fechaInicioNoPago));
+                        row.append($("<td>").text(element.fechaCorte));
+                        row.append($("<td>").text(formatCurrency(element.reservaActurial)));
+                        row.append($("<td>").text(element.estado));
+
+                        var accionesColumn = $("<td class='text-center no-padding'>");
+
+                        var buttonsContainer = $("<div class='d-flex justify-content-between'>"); // Contenedor para los botones
+        
+                        var anularButton = $('<button type="button" class="btn btn-danger w-80" style="font-size: 12px;">Anular</button>');
+                        anularButton.click(function () {
+                            anularCalculo(element.idCalculo, element.estado);
+                        });
+        
+                        var pdfButton = $('<button type="button" class="btn btn-primary w-80 ml-2" style="background-color: #0f5044; font-size: 12px;">Ver Detalle</button>');
+                        pdfButton.click(function () {
+                            generatePDFTable(
+                                element.fechaRegistro,
+                                nombreEmpleador,
+                                nombresEmpleado + ' ' + apellidosEmpleado,
+                                identificadorEmpleado,
+                                element.fechaInicioNoPago,
+                                element.fechaCorte,
+                                formatCurrency(element.reservaActurial),
+                                element.estado
+                            );
+                        });
+
+                        buttonsContainer.append(anularButton);
+                        buttonsContainer.append(pdfButton);
+        
+                        accionesColumn.append(buttonsContainer);
+        
+                        row.append(accionesColumn);
+        
+                        $("#contenidoTablaCalculo").append(row);
+                    });
+                });
             });
         },
         error: function (xhr, status) {
-            alert("An error has occurred!!");
+            Swal.fire({
+                text: '¡Ha ocurrido un error!',
+                icon: 'error',
+                confirmButtonColor: '#0f5044',
+                customClass: {
+                    popup: 'my-swal-popup',
+                }
+            });
         }
     });
-}*/
+}
+
 
 // Funcion para generar un calculo actuarial
 function generaCalculo() {
@@ -119,7 +197,7 @@ function generaCalculo() {
                         fechaInicioNoPago: $("#fechaIni").val(),
                         fechaCorte: $("#fechaFin").val(),
                         fechaNacimiento: $("#fechaNac").val(),
-                        salarioBaseLiquidacion: parseFloat($("#salarioBase").val().replace(/[^\d.-]/g, '')), // Extraer solo números
+                        salarioBaseLiquidacion: parseFloat($("#salarioBase").val().replace(/[^\d.-]/g, '')),
                         genero: $("#genero").val(),
                     };
 
@@ -138,9 +216,15 @@ function generaCalculo() {
                         })
                         .then(data => {
                             const totalAPagarField = document.getElementById('total');
-                            const formattedReservaActuarial = formatCurrency(data.reservaActurial); // Formatear el valor
-
+                            const formattedReservaActuarial = formatCurrency(data.reservaActurial);
                             totalAPagarField.value = formattedReservaActuarial;
+
+                            const fecha = new Date(data.fechaRegistro);
+                            const dia = fecha.getDate();
+                            const mes = fecha.getMonth() + 1;
+                            const anio = fecha.getFullYear();
+                            const fechaFormateada = `${anio}-${mes < 10 ? '0' : ''}${mes}-${dia < 10 ? '0' : ''}${dia}`;
+                            fechaRegistro.value = fechaFormateada;
 
                             Swal.fire({
                                 text: '¡Cálculo realizado exitosamente!',
@@ -152,20 +236,13 @@ function generaCalculo() {
                             })
                                 .then(() => {
                                     generatePDF();
-                                    $("#btnGenerarCalculo").prop("disabled", true); 
+                                    consultarCalculo();
+                                    $("#btnGenerarCalculo").prop("disabled", true);
                                 });
                         })
                         .catch(error => {
                             console.error('Error:', error);
                         });
-
-                    // Función para formatear el valor como moneda
-                    function formatCurrency(value) {
-                        return new Intl.NumberFormat('en-US', {
-                            style: 'currency',
-                            currency: 'USD'
-                        }).format(value);
-                    }
                 }
             })
 
@@ -176,38 +253,69 @@ function generaCalculo() {
 
 
 
-/*
-
-
-// Funcion para poder anular un registro
-function buscarEmpleado(id) {
-    $.ajax({
-        url: "http://localhost:8085/libertadores/empleado/" + id,
-        type: "GET",
-        dataType: "json",
-        success: function (response) {
-            if (response.idEmpleado != null) {
-                idBuscado = response.idEmpleado;
-                $("#tipoUP").val(response.tipoDocumentoEmpleado);
-                $("#idUP").val(response.identificadorEmpleado);
-                $("#nombresUP").val(response.nombresEmpleado);
-                $("#apellidosUP").val(response.apellidosEmpleado);
-                $("#direccionUP").val(response.direccionEmpleado);
-                $("#telefonoUP").val(response.telefonoEmpleado);
-                $("#correoUP").val(response.correoEmpleado);
-                $("#fechaNacUP").val(response.fechaNacimientoEmpleado);
-                $("#generoUP").val(response.genero);
-            } else {
-                alert("The record was not found!!");
+// Función para anular un registro mediante la API
+function anularCalculo(idCalculo,estado) {
+    if (estado === "Anulado") {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: '¡Este registro ya se encuentra anulado!',
+            confirmButtonColor: '#0f5044',
+            customClass: {
+                popup: 'my-swal-popup',
             }
-        },
-        error: function (xhr, status) {
-            alert("An error has occurred");
-        }
-    });
+        })
+    } else {
+
+        Swal.fire({
+            title: '¿Estás seguro de anular el registro?',
+            text: 'Esta acción no se puede deshacer.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#0f5044',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, anular',
+            cancelButtonText: 'Cancelar',
+            customClass: {
+                popup: 'my-swal-popup',
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var data = {
+                    idCalculo: idCalculo,
+                    estado: "Anulado"
+                };
+
+                $.ajax({
+                    url: "http://localhost:8085/libertadores/calculoAc/estado",
+                    type: "PUT",
+                    contentType: "application/json",
+                    data: JSON.stringify(data),
+                    success: function (response) {
+                        consultarCalculo();
+                        window.location(reload);
+                    },
+                    error: function (xhr, status) {
+                        Swal.fire({
+                            text: '¡Ha ocurrido un error al anular el cálculo!',
+                            icon: 'error',
+                            confirmButtonColor: '#0f5044',
+                            customClass: {
+                                popup: 'my-swal-popup',
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+
+
 }
 
-*/
+
+
 // Funcion para filtrar tabla por medio del input 
 $(document).ready(function () {
     $("#filtroInput").on("keyup", function () {
@@ -285,7 +393,6 @@ const apiUrl2 = 'http://localhost:8085/libertadores/empleado/general';
 const searchInput2 = document.getElementById('inputEmpleado');
 const autocompleteResults2 = document.getElementById('listaEmpleado');
 
-
 fetch(apiUrl2)
     .then(response => response.json())
     .then(data => {
@@ -333,10 +440,18 @@ fetch(apiUrl2)
         console.error('Error al obtener los datos:', error);
     });
 
+
+
+
+
+
+
+// Funcion para generar el pdf al finalizar el calculo    
 function generatePDF() {
 
     var nombreEmpleado = $("#nombreEmpleado").val();
     var docEmpleado = $("#inputEmpleado").val();
+    var fechaRegistro = $("#fechaRegistro").val();
     var empleador = $("#inputEmpleador").val();
     var fechaNac = $("#fechaNac").val();
     var fechaIni = $("#fechaIni").val();
@@ -355,7 +470,7 @@ function generatePDF() {
         logo: {
             src: "/Images/avatar.png",
             width: 50, //aspect ratio = width/height
-            height: 30,
+            height: 33,
             margin: {
                 top: 0, //negative or positive num, from the current position
                 left: 0 //negative or positive num, from the current position
@@ -370,11 +485,11 @@ function generatePDF() {
             website: "https://www.ulibertadores.edu.co › proyeccion-social",
         },
         contact: {
-            label: "Cálculo de Reserva Actuarial",
+            label: "Fecha: " + fechaRegistro,
             name: "Empleado: " + nombreEmpleado,
             address: "Identificación: " + docEmpleado,
             phone: "Fecha Nacimiento: " + fechaNac,
-            email: "Empleador: " + empleador,
+            email: "Género: " + genero,
             // otherInfo: "www.website.al", // Puedes agregar esto si es necesario
         },
         invoice: {
@@ -388,26 +503,121 @@ function generatePDF() {
                     }
                 },
                 {
-                    title: "Fecha Inicial",
+                    title: "Empleador",
                     style: {
-                        width: 40
+                        width: 60
                     }
                 },
-                {
-                    title: "Fecha Final",
-                    style: {
-                        width: 40
-                    }
-                },
-                { title: "Género" },
+                { title: "Fecha Inicial" },
+                { title: "Fecha Final" },
                 { title: "Salario Base" },
                 { title: "Total a Pagar" }
             ],
             table: Array.from(Array(1), (item, index) => ([
                 index + 1,
+                empleador,
                 fechaIni,
                 fechaFin,
-                genero,
+                salarioBase,
+                total,
+
+            ])),
+
+            invDescLabel: "Consideraciones para tener en cuenta",
+            invDesc: "-Los datos ingresados en este aplicativo son confidenciales y seran usados solo para el presente cálculo" +
+                "\n-Los resultados generados son una proyección y, por lo tanto, corresponde a una orientacion sobre el eventual monto de la Reserva Actuarial, por tanto podria variar" +
+                "\n-Esta simulación se efectua teniendo en cuenta el salario reportado por el empleado" +
+                "\n-La anterior información no compromete a la Fundación Universitaria Los Libertadores en caso de diferir en el resultado",
+        },
+        footer: {
+            text: "Fundacion Universitaria Los Libertadores - Todos los derechos reservados",
+        },
+        pageEnable: true,
+        pageLabel: "Page ",
+    };
+
+    var pdfObject = jsPDFInvoiceTemplate.default(props);
+}
+
+$(document).ready(function () {
+    $("#filtroInput").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $("#contenidoTablaCalculo tr").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+    });
+});
+
+function generatePDFTable(fechaRegistro, nombreEmpleador, nombreCompletoEmpleado, identificadorEmpleado, fechaInicioNoPago, fechaCorte, reservaActurial, estado) {
+
+    var nombreEmpleado = nombreCompletoEmpleado;
+    var docEmpleado = identificadorEmpleado;
+    var fechaRegistro = fechaRegistro;
+    var empleador = nombreEmpleador;
+    var fechaNac = fechaInicioNoPago;
+    var fechaIni =fechaInicioNoPago ;
+    var fechaFin = fechaCorte;
+    var genero = identificadorEmpleado;
+    var salarioBase = salarioBase;
+    var total = reservaActurial;
+
+    var props = {
+        outputType: "save",
+        returnJsPDFDocObject: true,
+        fileName: "Reporte Cálculo Actuarial",
+        orientationLandscape: false,
+        compress: true,
+        logo: {
+            src: "/Images/avatar.png",
+            width: 50, //aspect ratio = width/height
+            height: 33,
+            margin: {
+                top: 0, //negative or positive num, from the current position
+                left: 0 //negative or positive num, from the current position
+            }
+        },
+        business: {
+            name: "CONSULTORIO JURÍDICO",
+            address: "Calle 63a # 16-38",
+            phone: "Sede Proyección Social",
+            email: "cjuridico@libertadores.edu.co",
+            email_1: "2544750 Ext. 3207-3209",
+            website: "https://www.ulibertadores.edu.co › proyeccion-social",
+        },
+        contact: {
+            label: "Fecha: " + fechaRegistro,
+            name: "Empleado: " + nombreEmpleado,
+            address: "Identificación: " + docEmpleado,
+            phone: "Fecha Nacimiento: " + fechaNac,
+            email: "Género: " + genero,
+            // otherInfo: "www.website.al", // Puedes agregar esto si es necesario
+        },
+        invoice: {
+            headerBorder: true,
+            tableBodyBorder: true,
+            header: [
+                {
+                    title: "#",
+                    style: {
+                        width: 10
+                    }
+                },
+                {
+                    title: "Empleador",
+                    style: {
+                        width: 60
+                    }
+                },
+                { title: "Fecha Inicial" },
+                { title: "Fecha Final" },
+                { title: "Salario Base" },
+                { title: "Total a Pagar" }
+            ],
+            table: Array.from(Array(1), (item, index) => ([
+                index + 1,
+                empleador,
+                fechaIni,
+                fechaFin,
                 salarioBase,
                 total,
 

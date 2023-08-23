@@ -22,7 +22,7 @@ $("#login").click(function () {
             contentType: 'application/json',
             success: function (response) {
                 $("#token").val(response.token);
-                window.location.href = './pages/homeAdmin.html';
+                window.location.href = '/pages/homeAdmin.html';
             },
             error: function (xhr, status, error) {
                 if (xhr.status === 401) {
