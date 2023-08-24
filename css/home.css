@@ -461,3 +461,7 @@ nav.close ~ .dashboard .top{
 li {
     cursor: pointer;
 }
+
+.icon i {
+    font-size: 18px; /* Ajusta el tamaño según tu preferencia */
+  }

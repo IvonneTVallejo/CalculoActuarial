@@ -240,12 +240,12 @@ nav.close ~ .dashboard .top{
     color: var(--text-color);
     cursor: pointer;
 }
-.dashboard .top .search-box{
+.dashboard .top .search-box {
     position: relative;
     height: 45px;
-    max-width: 600px;
+    max-width: 400px;
     width: 100%;
-    margin: 0 30px;
+    margin-right: -450px;
 }
 .top .search-box input{
     position: absolute;

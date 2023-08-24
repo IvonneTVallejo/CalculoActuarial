@@ -24,6 +24,14 @@ sidebarToggle.addEventListener("click", () => {
 
 var tipoUsuario = localStorage.getItem("tipoUsuario");
 
+var username = localStorage.getItem("username");
+
+// Actualizar el contenido del elemento HTML
+var usernameDisplay = document.getElementById("usernameDisplay");
+usernameDisplay.innerHTML = `<img src="/Images/sesion.png" /> Hola, ${username}!`;
+
+
+
 var paginasRestringidas = ["usuarios.html", "salario.html"]; 
 
 var url = window.location.href;
