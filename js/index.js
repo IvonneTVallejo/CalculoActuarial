@@ -9,6 +9,7 @@ $("#login").click(function () {
     let password = $("#password").val();
 
     if (username === "" || $.trim(password) === "") {
+        
     } else {
         const data = {
             username: username,
@@ -22,7 +23,11 @@ $("#login").click(function () {
             contentType: 'application/json',
             success: function (response) {
                 $("#token").val(response.token);
-                window.location.href = '/pages/homeAdmin.html';
+                // Almacenar el tipo de usuario en el almacenamiento local
+                localStorage.setItem("tipoUsuario", response.tipoUsuario);
+
+                    window.location.href = '/pages/home.html';
+                
             },
             error: function (xhr, status, error) {
                 if (xhr.status === 401) {
@@ -48,6 +53,8 @@ $("#login").click(function () {
         });
     }
 });
+
+
 
 const pass_field = document.querySelector('.pass-key');
 const showBtn = document.querySelector('.show');

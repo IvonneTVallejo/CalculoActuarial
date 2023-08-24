@@ -37,11 +37,11 @@
                         <i class="uil uil-calculator"></i>
                         <span class="link-name">Cálculo Actuarial</span>
                     </a></li>
-                    <li><a href="/pages/salario.html">
+                <li><a href="/pages/salario.html" id="pageSalario">
                         <i class="uil uil-usd-circle"></i>
-                        <span class="link-name">Ingresar SMMLV</span>
+                        <span class="link-name">Actualizar Parámetros</span>
                     </a></li>
-                    <li><a href="/pages/usuarios.html">
+                <li><a href="/pages/usuarios.html" id="pageUsuarios">
                         <i class="uil  uil-users-alt"></i>
                         <span class="link-name">Gestión de Usuarios</span>
                     </a></li>
@@ -73,7 +73,8 @@
                     <i class="uil uil-calculator"></i>
                     <span class="text">CÁLCULO ACTUARIAL</span>
                 </div>
-                <button id="btnNUevoCalculo" type="button" class="btn btn-success" data-toggle="modal" data-target="#modalRegistroCalculo">
+                <button id="btnNUevoCalculo" type="button" class="btn btn-success" data-toggle="modal"
+                    data-target="#modalRegistroCalculo">
                     Generar Cálculo
                 </button>
                 <button type="button" id="exportarExcel" class="btn btn-success">
@@ -86,11 +87,8 @@
                         <thead>
                             <tr class="table-success">
                                 <th>Fecha</th>
-                                <th>Empleador</th>
-                                <th>Empleado</th>
                                 <th>Identificación</th>
-                                <th>Fecha inicial</th>
-                                <th>Fecha final</th>
+                                <th>Empleado</th>
                                 <th>Total a pagar</th>
                                 <th>Estado</th>
                                 <th class="col-1">Acciones</th>
@@ -101,7 +99,7 @@
                     </table>
                 </div>
 
-                <!-- Inicio modal -->
+                <!-- Inicio modal generar calculo-->
                 <div class="modal fade" id="modalRegistroCalculo" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog modal-lg">
@@ -120,18 +118,6 @@
 
 
                             <div class="modal-body">
-                                <div class="form-group">
-                                    <br>
-                                    <label for="fechaIni"><strong>Información empleador:</strong></label>
-                                </div>
-                                <div class="form-group">
-                                    <input type="hidden" class="form-control" id="idEmpleador">
-                                </div>
-                                <div class="form-group">
-                                    <label for="empleador">Empleador:</label>
-                                    <input type="text" class="form-control" id="inputEmpleador" placeholder="Buscar...">
-                                    <ul class="lista" id="listaEmpleador"></ul>
-                                </div>
                                 <div class="form-group">
                                     <br>
                                     <label for="fechaIni"><strong>Información empleado:</strong></label>
@@ -156,6 +142,20 @@
                                     <label for="genero">Género:</label>
                                     <input type="text" class="form-control" id="genero" disabled>
                                 </div>
+
+                                <div class="form-group">
+                                    <br>
+                                    <label for="fechaIni"><strong>Información empleador:</strong></label>
+                                </div>
+                                <div class="form-group">
+                                    <input type="hidden" class="form-control" id="idEmpleador">
+                                </div>
+                                <div class="form-group">
+                                    <label for="empleador">Empleador:</label>
+                                    <input type="text" class="form-control" id="inputEmpleador" placeholder="Buscar...">
+                                    <ul class="lista" id="listaEmpleador"></ul>
+                                </div>
+
                                 <div class="form-group">
                                     <br>
                                     <label for="fechaIni"><strong>Información de la omisión de aportes:</strong></label>
@@ -168,7 +168,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="salarioBase">Salario base liquidación:</label>
-                                    <input type="text" id="salarioBase" class="form-control" >
+                                    <input type="text" id="salarioBase" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label for="total">Total a pagar:</label>
@@ -183,13 +183,89 @@
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-success" onclick="limpiarCampos()"
                                     style="font-size: 13px;">Limpiar</button>
-                                <button type="button" class="btn btn-success" id="btnGenerarCalculo" onclick="generaCalculo()"
-                                    style="font-size: 13px;">Calcular y Guardar</button>
+                                <button type="button" class="btn btn-success" id="btnGenerarCalculo"
+                                    onclick="generaCalculo()" style="font-size: 13px;">Calcular y Guardar</button>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- Fin modal -->
+
+                <!-- Inicio modal ver detalle -->
+                <div class="modal fade" id="modalVerDetalleCalculo" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel" style="color:white">Detalle Cálculo
+                                </h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">
+                                        <font style="vertical-align: inherit;">
+                                            <font style="vertical-align: inherit;">×</font>
+                                        </font>
+                                    </span>
+                                </button>
+                            </div>
+
+
+                            <div class="modal-body">
+                                <br>
+                                <div class="form-group">
+                                    <label for="fechaRegistroPDF">Fecha Registro:</label>
+                                    <input type="text" id="fechaRegistroPDF" class="form-control" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="empleadorPDF">Identificación Empleado:</label>
+                                    <input type="text" class="form-control" id="inputEmpleadoPDF" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="empleadoPDF">Empleado:</label>
+                                    <input type="text" class="form-control" id="nombreEmpleadoPDF" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fechaNacPDF">Fecha Nacimiento:</label>
+                                    <input type="date" class="form-control" id="fechaNacPDF" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="generoPDF">Género:</label>
+                                    <input type="text" class="form-control" id="generoPDF" disabled>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="empleadorPDF">Empleador:</label>
+                                    <input type="text" class="form-control" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fechaIniPDF">Fecha inicial:</label>
+                                    <input type="date" class="form-control" id="fechaIniPDF" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fechaFinPDF">Fecha final:</label>
+                                    <input type="date" class="form-control" id="fechaFinPDF" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="salarioBasePDF">Salario base liquidación:</label>
+                                    <input type="text" id="salarioBasePDF" class="form-control" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="totalPDF">Total a pagar:</label>
+                                    <input type="text" id="totalPDF" class="form-control" disabled>
+                                </div>
+
+                            </div>
+
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" id="btnGenerarCalculo"
+                                    onclick="generatePDF()" style="font-size: 13px;">Descargar PDF</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--  Fin modal -->
+
+
             </div>
         </div>
     </section>

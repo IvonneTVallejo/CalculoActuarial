@@ -21,3 +21,19 @@ sidebarToggle.addEventListener("click", () => {
         localStorage.setItem("status", "open");
     }
 })
+
+var tipoUsuario = localStorage.getItem("tipoUsuario");
+
+var paginasRestringidas = ["usuarios.html", "salario.html"]; 
+
+var url = window.location.href;
+var fileName = url.substring(url.lastIndexOf('/') + 1);
+
+if (paginasRestringidas.includes(fileName) && tipoUsuario === "asesor") {
+    window.location.href = '/pages/accesoDenegado.html';
+}
+
+if (tipoUsuario === "asesor") {
+    $("#pageSalario").hide(); 
+    $("#pageUsuarios").hide(); 
+}

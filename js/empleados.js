@@ -1,5 +1,7 @@
 var idBuscado = 0;
 
+
+
 $(document).ready(function () {
     consultarEmpleado();
 });

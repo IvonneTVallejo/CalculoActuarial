@@ -630,7 +630,7 @@ thead {
     overflow-y: auto;
     font-size: 13.5px;
     position: absolute;
-    top: 250px;
+    top: 160px;
     left: 125px;
     z-index: 2;
     background-color: rgba(255, 255, 255, 0.9);

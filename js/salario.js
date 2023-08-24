@@ -1,10 +1,11 @@
 /*var idBuscado = 0;
 */
+
+
+
 $(document).ready(function () {
     consultarSalarios();
 });
-
-
 
 
 $("#salario").on({

@@ -38,11 +38,11 @@
                         <i class="uil uil-calculator"></i>
                         <span class="link-name">Cálculo Actuarial</span>
                     </a></li>
-                    <li><a href="/pages/salario.html">
+                <li><a href="/pages/salario.html" id="pageSalario">
                         <i class="uil uil-usd-circle"></i>
-                        <span class="link-name">Ingresar SMMLV</span>
+                        <span class="link-name">Actualizar Parámetros</span>
                     </a></li>
-                    <li><a href="/pages/usuarios.html">
+                <li><a href="/pages/usuarios.html" id="pageUsuarios">
                         <i class="uil  uil-users-alt"></i>
                         <span class="link-name">Gestión de Usuarios</span>
                     </a></li>
@@ -72,14 +72,14 @@
         </div>
         <div class="dash-content">
             <div class="activity">
-                    <div class="title">
-                        <i class="uil uil-building"></i>
-                        <span class="text">MÓDULO EMPLEADORES</span>
-                    </div>
-                    <button type="button" class="btn btn-success" data-toggle="modal"
-                        data-target="#modalRegistroEmpleador" id="btnNuevoRegistro">
-                        Crear Empleador
-                    </button>
+                <div class="title">
+                    <i class="uil uil-building"></i>
+                    <span class="text">MÓDULO EMPLEADORES</span>
+                </div>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalRegistroEmpleador"
+                    id="btnNuevoRegistro">
+                    Crear Empleador
+                </button>
                 <br>
                 <br>
                 <div id="div1">
@@ -178,7 +178,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="tipoUP">Tipo Identificación:</label>
-                        <select name="tipoUP" id="tipoUP" class="form-control" >
+                        <select name="tipoUP" id="tipoUP" class="form-control">
                             <option value="NIT">Número de Identificación Tributaria</option>
                             <option value="CC">Cédula de Ciudadanía</option>
                             <option value="CE">Cédula de Extranjería</option>

@@ -1,5 +1,6 @@
 var idBuscado = 0;
 
+
 $(document).ready(function () {
     $("#btnNuevoUsuario").click(function () {
         $("#nuevoUsuario").show();
@@ -111,7 +112,7 @@ function registrarNuevoUsuario() {
 
 // Funcion para modificar contraseña 
 function cambiarContrasena() {
-    if ($("#usernameCP").val().length == 0 ||  $("#passwordCP").val() == "" ) {
+    if ($("#usernameCP").val().length == 0 || $("#passwordCP").val() == "") {
         Swal.fire({
             text: '¡Por favor complete todos los campos!',
             icon: 'warning',
@@ -174,7 +175,7 @@ function cambiarContrasena() {
 
 
 function actualizarUsuario() {
-    if ($("#usernameUP").val().length == 0 ||  $("#tipoUP").val() == "" || $("#estadoUP").val() == "") {
+    if ($("#usernameUP").val().length == 0 || $("#tipoUP").val() == "" || $("#estadoUP").val() == "") {
         Swal.fire({
             text: '¡Por favor complete todos los campos!',
             icon: 'warning',

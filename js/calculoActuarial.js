@@ -93,11 +93,8 @@ function consultarCalculo() {
                     obtenerNombreyDocumentoEmpleado(element.idEmpleado, function (nombresEmpleado, apellidosEmpleado, identificadorEmpleado) {
                         var row = $("<tr>");
                         row.append($("<td>").text(element.fechaRegistro.slice(0, 10)));
-                        row.append($("<td>").text(nombreEmpleador));
-                        row.append($("<td>").text(nombresEmpleado + ' ' + apellidosEmpleado));
                         row.append($("<td>").text(identificadorEmpleado));
-                        row.append($("<td>").text(element.fechaInicioNoPago));
-                        row.append($("<td>").text(element.fechaCorte));
+                        row.append($("<td>").text(nombresEmpleado + ' ' + apellidosEmpleado));
                         row.append($("<td>").text(formatCurrency(element.reservaActurial)));
                         row.append($("<td>").text(element.estado));
 
@@ -110,7 +107,7 @@ function consultarCalculo() {
                             anularCalculo(element.idCalculo, element.estado);
                         });
         
-                        var pdfButton = $('<button type="button" class="btn btn-primary w-80 ml-2" style="background-color: #0f5044; font-size: 12px;">Ver Detalle</button>');
+                        var pdfButton = $('<button type="button" class="btn btn-primary w-80 ml-2" style="background-color: #0f5044; font-size: 12px;" data-target="#modalVerDetalleCalculo" data-toggle="modal">Ver Detalle</button>');
                         pdfButton.click(function () {
                             generatePDFTable(
                                 element.fechaRegistro,
