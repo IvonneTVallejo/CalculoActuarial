@@ -1,16 +1,18 @@
 
-/**
- * Funcion para Validar login
- */
+$(document).ready(function () {
+    $("form").submit(function (event) {
+        event.preventDefault(); 
+    });
+});
 
 
 $("#login").click(function () {
-    event.preventDefault();
+
     let username = $("#username").val();
     let password = $("#password").val();
 
     if (username === "" || $.trim(password) === "") {
-        
+
     } else {
         const data = {
             username: username,
@@ -27,8 +29,8 @@ $("#login").click(function () {
                 // Almacenar el tipo de usuario en el almacenamiento local
                 localStorage.setItem("tipoUsuario", response.tipoUsuario);
                 localStorage.setItem("username", response.username);
-                    window.location.href = '/pages/home.html';
-                
+                window.location.href = '/pages/home.html';
+
             },
             error: function (xhr, status, error) {
                 if (xhr.status === 401) {
