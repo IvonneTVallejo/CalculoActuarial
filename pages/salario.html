@@ -26,7 +26,7 @@
         <div class="menu-items">
             <ul class="nav-links">
                 <li><a href="/pages/empleados.html">
-                        <i class="uil uil-user"></i>
+                    <i class="uil uil-user-square"></i>
                         <span class="link-name">Empleados</span>
                     </a></li>
                 <li><a href="/pages/empleadores.html">
@@ -38,11 +38,11 @@
                         <span class="link-name">Cálculo Actuarial</span>
                     </a></li>
                 <li><a href="#" id="pageSalario">
-                        <i class="uil uil-usd-circle"></i>
+                    <i class="uil uil-cog"></i>
                         <span class="link-name">Actualizar Parámetros</span>
                     </a></li>
                 <li><a href="/pages/usuarios.html" id="pageUsuarios">
-                        <i class="uil  uil-users-alt"></i>
+                    <i class="uil  uil-user-check"></i>
                         <span class="link-name">Gestión de Usuarios</span>
                     </a></li>
                 <li><a href="/pages/cambiarContrasena.html">
@@ -71,33 +71,70 @@
             </div>
             <div id="usernameDisplay">
                 <img src="/Images/sesion.png" />
-              </div>
+            </div>
         </div>
         <div class="dash-content">
             <div class="activity">
                 <div class="title">
-                    <i class="uil uil-usd-circle"></i>
-                    <span class="text">INGRESAR SMMLV</span>
+                    <i class="uil uil-cog"></i>
+                    <span class="text">ACTUALIZAR PARÁMETROS</span>
                 </div>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalRegistroSalario"
-                    id="btnNuevoRegistro">
-                    Nuevo Registro
-                </button>
-                <br>
-                <br>
-                <div id="div1">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr class="table-success">
-                                <th>Año</th>
-                                <th>Salario</th>
-                            </tr>
-                        </thead>
-                        <tbody class="cuerpo" id="contenidoTablaSalario">
-                        </tbody>
-                    </table>
+                <div class="card">
+                    <div class="card-inner" id="opcionSalario">
+                        <img src="/Images/salario.png" alt="Insertar Salarios">
+                        <span>Insertar Salarios</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-inner" id="opcionEdades">
+                        <img src="/Images/edad.png" alt="Actualizar Edad">
+                        <span>Actualizar Edad</span>
+                    </div>
                 </div>
 
+                <br>
+                <br>
+                <div id="salarios" style="display: none;">
+                    <button type="button" class="btn btn-success" data-toggle="modal"
+                        data-target="#modalRegistroSalario" id="btnNuevoRegistro">
+                        Nuevo Registro
+                    </button>
+                    <br>
+                    <br>
+                    <div id="div1">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="table-success">
+                                    <th>Año</th>
+                                    <th>Salario</th>
+                                </tr>
+                            </thead>
+                            <tbody class="cuerpo" id="contenidoTablaSalario">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="edades" style="display: none;">
+                    <button type="button" class="btn btn-success" data-toggle="modal"
+                        data-target="#" id="btnNuevoEdad">
+                        Actualizar Registro
+                    </button>
+                    <br>
+                    <br>
+                    <div id="div1">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="table-success">
+                                    <th>Genero</th>
+                                    <th>Edad</th>
+                                </tr>
+                            </thead>
+                            <tbody class="cuerpo" id="contenidoTablaEdades">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 <!-- Inicio modal -->
                 <div class="modal fade" id="modalRegistroSalario" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">

@@ -573,7 +573,7 @@ nav.close~.dashboard .top {
 
 #div1 {
     overflow-y: scroll;
-    height: 350px;
+    height: 280px;
     width: 100%;
 }
 
@@ -596,4 +596,36 @@ thead {
 
 li {
     cursor: pointer;
+}
+
+.card {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0;
+    background-color: white;
+    background-size: cover;
+}
+.card-inner {
+    background-color: white;
+    border-radius: 8px;
+    font-size: 12px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    margin: 10px;
+    transition: transform 0.2s;
+    width: 140px; /* Ajusta el ancho según tus necesidades */
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.card-inner:hover {
+    transform: scale(1.05);
+}
+.card-inner img {
+    margin-top: -19px;
+    max-width: 40px; /* Ajusta el tamaño de la imagen */
+    height: auto;
+    margin-bottom: 10px;
 }

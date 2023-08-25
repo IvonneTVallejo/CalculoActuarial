@@ -29,6 +29,7 @@ $("#login").click(function () {
                 // Almacenar el tipo de usuario en el almacenamiento local
                 localStorage.setItem("tipoUsuario", response.tipoUsuario);
                 localStorage.setItem("username", response.username);
+                localStorage.setItem("idUser", response.idUsuario);
                 window.location.href = '/pages/home.html';
 
             },

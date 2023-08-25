@@ -1,23 +1,31 @@
 var idBuscado = 0;
 
+$(document).ready(function () {
+    consultarUsuarios();
+});
 
 $(document).ready(function () {
     $("#btnNuevoUsuario").click(function () {
         $("#nuevoUsuario").show();
         $("#actualizarUsuario").hide();
         $("#actualizarContrasena").hide();
+        $("#div1").hide();
     });
 
     $("#btnActualizarUsuario").click(function () {
         $("#actualizarUsuario").show();
         $("#nuevoUsuario").hide();
         $("#actualizarContrasena").hide();
+        $("#div1").hide();
+        window.location(reload);
     });
 
     $("#btnCambiarContrasena").click(function () {
         $("#actualizarContrasena").show();
         $("#actualizarUsuario").hide();
         $("#nuevoUsuario").hide();
+        $("#div1").hide();
+        window.location(reload);
     });
 });
 
@@ -52,7 +60,7 @@ function limpiarCamposActualizados() {
 
 // Funcion para registrar un empleado
 function registrarNuevoUsuario() {
-    if ($("#username").val().length == 0 || $("#password").val().length == 0 || $("#tipo").val() == "") {
+    if ($("#nombre").val().length == 0 || $("#password").val().length == 0 || $("#tipo").val() == "") {
         Swal.fire({
             text: '¡Por favor complete todos los campos!',
             icon: 'warning',
@@ -64,6 +72,7 @@ function registrarNuevoUsuario() {
     } else {
         const url = 'http://localhost:8085/libertadores/usuario';
         const datos = {
+            nombre: $("#nombre").val(),
             username: $("#username").val(),
             password: $("#password").val(),
             tipoUsuario: $("#tipo").val(),
@@ -93,6 +102,7 @@ function registrarNuevoUsuario() {
                 })
                     .then(() => {
                         limpiarCampos();
+                        window.location.reload();
                     });
             })
             .catch(error => {
@@ -112,9 +122,9 @@ function registrarNuevoUsuario() {
 
 // Funcion para modificar contraseña 
 function cambiarContrasena() {
-    if ($("#usernameCP").val().length == 0 || $("#passwordCP").val() == "") {
+    if ( $("#passwordCP").val() == "") {
         Swal.fire({
-            text: '¡Por favor complete todos los campos!',
+            text: '¡Por favor ingrese una contraseña!',
             icon: 'warning',
             confirmButtonColor: '#0f5044',
             customClass: {
@@ -124,12 +134,10 @@ function cambiarContrasena() {
     } else {
         const url = 'http://localhost:8085/libertadores/usuario/password';
         var id = $("#idCP").val();
-        var username = $("#usernameUP").val();
         var password = $("#passwordCP").val();
 
         var datos = {
             idUsuario: id,
-            username: username,
             password: password,
 
         };
@@ -175,7 +183,7 @@ function cambiarContrasena() {
 
 
 function actualizarUsuario() {
-    if ($("#usernameUP").val().length == 0 || $("#tipoUP").val() == "" || $("#estadoUP").val() == "") {
+    if ($("#nameUP").val().length == 0 || $("#tipoUP").val() == "" || $("#estadoUP").val() == "") {
         Swal.fire({
             text: '¡Por favor complete todos los campos!',
             icon: 'warning',
@@ -187,13 +195,13 @@ function actualizarUsuario() {
     } else {
         const url = 'http://localhost:8085/libertadores/usuario/';
         var id = $("#idUP").val();
-        var username = $("#usernameUP").val();
+        var nombre = $("#nameUP").val();
         var tipo = $("#tipoUP").val();
         var estado = $("#estadoUP").val();
 
         var datos = {
             idUsuario: id,
-            username: username,
+            nombre: nombre,
             tipoUsuario: tipo,
             estado: estado,
         };
@@ -237,7 +245,37 @@ function actualizarUsuario() {
     }
 }
 
+function consultarUsuarios() {
 
+    $.ajax({
+        url: "http://localhost:8085/libertadores/usuario/general",
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+            
+
+            $("#contenidoTablaUsuarios").empty();
+            response.forEach(element => {
+                var row = $("<tr>");
+                row.append($("<td>").text(element.nombre));
+                row.append($("<td>").text(element.username));
+                row.append($("<td>").text(element.tipoUsuario));
+                row.append($("<td>").text(element.estado));
+                $("#contenidoTablaUsuarios").append(row);
+            });
+        },
+        error: function (xhr, status) {
+            Swal.fire({
+                text: '¡Ha ocurrido un error!',
+                icon: 'error',
+                confirmButtonColor: '#0f5044',
+                customClass: {
+                    popup: 'my-swal-popup',
+                }
+            });
+        }
+    });
+}
 
 // Funcion para obtener la informacion del usuario
 const apiUrl = 'http://localhost:8085/libertadores/usuario/general';
@@ -251,6 +289,7 @@ fetch(apiUrl)
             return {
                 id: item.idUsuario,
                 username: item.username,
+                nombre: item.nombre,
                 tipo: item.tipoUsuario,
                 estado: item.estado,
             };
@@ -270,7 +309,7 @@ fetch(apiUrl)
                 listItem.addEventListener('click', () => {
                     searchInput.value = item.username;
                     $("#idUP").val(item.id);
-                    $("#usernameUP").val(item.username);
+                    $("#nameUP").val(item.nombre);
                     $("#tipoUP").val(item.tipo);
                     $("#estadoUP").val(item.estado);
                     autocompleteResults.style.display = 'none';

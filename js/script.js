@@ -51,6 +51,7 @@ function cerrarSesion() {
     localStorage.removeItem("token"); // Borrar el token de autenticación
     localStorage.removeItem("tipoUsuario"); 
     localStorage.removeItem("username");// Borrar el tipo de usuario u otros datos
+    localStorage.removeItem("idUser");
     // Otros pasos de limpieza que puedas necesitar
     window.location.href = '/index.html'; // Redirigir a la página de inicio de sesión
 }

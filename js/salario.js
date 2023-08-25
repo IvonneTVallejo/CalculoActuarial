@@ -1,11 +1,19 @@
-/*var idBuscado = 0;
-*/
-
-
-
 $(document).ready(function () {
     consultarSalarios();
 });
+
+$(document).ready(function () {
+    $("#opcionSalario").click(function () {
+        $("#salarios").show();
+        $("#edades").hide();
+    });
+
+    $("#opcionEdades").click(function () {
+        $("#salarios").hide();
+        $("#edades").show();
+    });
+});
+
 
 
 $("#salario").on({

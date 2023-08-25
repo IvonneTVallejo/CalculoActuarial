@@ -27,7 +27,7 @@
         <div class="menu-items">
             <ul class="nav-links">
                 <li><a href="/pages/empleados.html">
-                        <i class="uil uil-user"></i>
+                    <i class="uil uil-user-square"></i>
                         <span class="link-name">Empleados</span>
                     </a></li>
                 <li><a href="/pages/empleadores.html">
@@ -38,12 +38,12 @@
                         <i class="uil uil-calculator"></i>
                         <span class="link-name">Cálculo Actuarial</span>
                     </a></li>
-                    <li><a href="/pages/salario.html" id="pageSalario">
-                        <i class="uil uil-usd-circle"></i>
+                <li><a href="/pages/salario.html" id="pageSalario">
+                    <i class="uil uil-cog"></i>
                         <span class="link-name">Actualizar Parámetros</span>
                     </a></li>
                 <li><a href="#" id="pageUsuarios">
-                        <i class="uil  uil-users-alt"></i>
+                    <i class="uil  uil-user-check"></i>
                         <span class="link-name">Gestión de Usuarios</span>
                     </a></li>
                 <li><a href="/pages/cambiarContrasena.html">
@@ -67,113 +67,143 @@
             <i class="uil uil-bars sidebar-toggle"></i>
             <div id="usernameDisplay">
                 <img src="/Images/sesion.png" />
-              </div>
+            </div>
         </div>
-        
+
         <div class="dash-content">
             <div class="activity">
                 <div class="title">
-                    <i class="uil uil-users-alt"></i>
+                    <i class="uil  uil-user-check"></i>
                     <span class="text">MÓDULO USUARIOS</span>
                 </div>
-                <button type="button" class="btn btn-success" id="btnNuevoUsuario">
-                    Crear Usuario
-                </button>
-                <button type="button" class="btn btn-success" id="btnActualizarUsuario">
-                    Actualizar Usuario
-                </button>
-                <button type="button" class="btn btn-success" id="btnCambiarContrasena">
-                    Cambiar contraseña
-                </button>
+                <div class="card">
+                    <div class="card-inner" id="btnNuevoUsuario">
+                        <img src="/Images/agregar.png" alt="Insertar Salarios">
+                        <span>Crear Usuario</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-inner" id="btnActualizarUsuario">
+                        <img src="/Images/actualizar.png" alt="Actualizar Edad">
+                        <span>Actualizar Perfil</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-inner" id="btnCambiarContrasena">
+                        <img src="/Images/pass.png" alt="Actualizar Edad">
+                        <span>Cambiar Contraseña</span>
+                    </div>
+                </div>
+
+
+
+
                 <br>
                 <br>
+
             </div>
 
-                <div class="container-fluid" id="nuevoUsuario" style="display: none;">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="username">Username:</label>
-                            <input type="text" class="form-control" id="username">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password:</label>
-                            <input type="password" class="form-control" id="password">
-                        </div>
-                        <div class="form-group">
-                            <label for="tipo">Tipo:</label>
-                            <select name="tipo" id="tipo" class="form-control">
-                                <option value="">Seleccione un tipo</option>
-                                <option value="administrador">Administrador</option>
-                                <option value="asesor">Asesor Jurídico</option>
-                            </select>
-                        </div>
+            <div class="container-fluid" id="nuevoUsuario" style="display: none;">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" class="form-control" id="nombre">
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" id="registrarNuevoUsuario"
-                            onclick="registrarNuevoUsuario()" style="font-size: 13px;">Guardar</button>
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" class="form-control" id="username">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" class="form-control" id="password">
+                    </div>
+                    <div class="form-group">
+                        <label for="tipo">Tipo:</label>
+                        <select name="tipo" id="tipo" class="form-control">
+                            <option value="">Seleccione un tipo</option>
+                            <option value="administrador">Administrador</option>
+                            <option value="asesor">Asesor Jurídico</option>
+                        </select>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="registrarNuevoUsuario"
+                        onclick="registrarNuevoUsuario()" style="font-size: 13px;">Guardar</button>
+                </div>
+            </div>
 
-                <div class="container-fluid" id="actualizarUsuario" style="display: none;">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="inputUsuario" placeholder="Buscar...">
-                            <ul class="lista" id="listaUsuario"></ul>
-                        </div>
-                        <div class="form-group">
-                            <input type="hidden" class="form-control" id="idUP">
-                        </div>
-                        <div class="form-group">
-                            <label for="usernameUP">Username:</label>
-                            <input type="text" class="form-control" id="usernameUP" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="tipoUP">Tipo:</label>
-                            <select name="tipoUP" id="tipoUP" class="form-control">
-                                <option value="">Seleccione un tipo</option>
-                                <option value="administrador">Administrador</option>
-                                <option value="asesor">Asesor Jurídico</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="estadoUP">Estado:</label>
-                            <select name="estadoUP" id="estadoUP" class="form-control">
-                                <option value="">Seleccione un tipo</option>
-                                <option value="activo">Activo</option>
-                                <option value="inactivo">Inactivo</option>
-                            </select>
-                        </div>
+            <div class="container-fluid" id="actualizarUsuario" style="display: none;">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="inputUsuario" placeholder="Buscar...">
+                        <ul class="lista" id="listaUsuario"></ul>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" id="actualizarUsuario"
-                            onclick="actualizarUsuario()" style="font-size: 13px;">Actualizar</button>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="idUP">
+                    </div>
+                    <div class="form-group">
+                        <label for="nameUP">Nombre:</label>
+                        <input type="text" class="form-control" id="nameUP" >
+                    </div>
+                    <div class="form-group">
+                        <label for="tipoUP">Tipo:</label>
+                        <select name="tipoUP" id="tipoUP" class="form-control">
+                            <option value="">Seleccione un tipo</option>
+                            <option value="administrador">Administrador</option>
+                            <option value="asesor">Asesor Jurídico</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="estadoUP">Estado:</label>
+                        <select name="estadoUP" id="estadoUP" class="form-control">
+                            <option value="">Seleccione un tipo</option>
+                            <option value="activo">Activo</option>
+                            <option value="inactivo">Inactivo</option>
+                        </select>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="actualizarUsuario" onclick="actualizarUsuario()"
+                        style="font-size: 13px;">Actualizar</button>
+                </div>
+            </div>
 
-                <div class="container-fluid" id="actualizarContrasena" style="display: none;">
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="inputUsuarioCP" placeholder="Buscar...">
-                            <ul class="lista" id="listaUsuarioCP"></ul>
-                        </div>
-                        <div class="form-group">
-                            <input type="hidden" class="form-control" id="idCP">
-                        </div>
-                        <div class="form-group">
-                            <label for="usernameCP">Username:</label>
-                            <input type="text" class="form-control" id="usernameCP" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="passwordCP">Password:</label>
-                            <input type="password" class="form-control" id="passwordCP">
-                        </div>
+            <div class="container-fluid" id="actualizarContrasena" style="display: none;">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="inputUsuarioCP" placeholder="Buscar...">
+                        <ul class="lista" id="listaUsuarioCP"></ul>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-success" id="actualizarUsuario"
-                            onclick="cambiarContrasena()" style="font-size: 13px;">Actualizar</button>
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="idCP">
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordCP">Password:</label>
+                        <input type="password" class="form-control" id="passwordCP">
                     </div>
                 </div>
-            
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" id="actualizarUsuario" onclick="cambiarContrasena()"
+                        style="font-size: 13px;">Actualizar</button>
+                </div>
+            </div>
+
+            <div id="div1">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="table-success">
+                            <th>Nombre</th>
+                            <th>Username</th>
+                            <th>Tipo</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody class="cuerpo" id="contenidoTablaUsuarios">
+
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </section>
     <!-- Fin modal para actualizar empleador-->
