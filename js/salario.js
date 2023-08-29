@@ -1,5 +1,6 @@
 $(document).ready(function () {
     consultarSalarios();
+    consultarEdades();
 });
 
 $(document).ready(function () {
@@ -26,7 +27,7 @@ $("#salario").on({
                 .replace(/([0-9])([0-9]{2})$/, '$1.$2')
                 .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
 
-            return "$ " + value; // Agregar el signo de pesos al inicio
+            return "$ " + value; 
         });
     }
 });
@@ -46,7 +47,7 @@ function consultarSalarios() {
         type: "GET",
         dataType: "json",
         success: function (response) {
-            response.sort(function(a, b) {
+            response.sort(function (a, b) {
                 return b.ano - a.ano;
             });
 
@@ -54,8 +55,7 @@ function consultarSalarios() {
             response.forEach(element => {
                 var row = $("<tr>");
                 row.append($("<td>").text(element.ano));
-                
-                // Formatear el campo salario con decimales y el símbolo "$"
+
                 var formattedSalary = element.salario.toLocaleString('en-US', {
                     style: 'currency',
                     currency: 'USD'
@@ -92,13 +92,10 @@ function insertarSalario() {
     } else {
         const url = 'http://localhost:8085/libertadores/salario';
 
-        // Obtener el año actual
         const year = new Date().getFullYear();
 
-        // Formatear el salario y eliminar caracteres no numéricos
         const salarioFormateado = parseFloat($("#salario").val().replace(/[^0-9.]/g, ''));
 
-        // Comparar el año ingresado con el año actual
         if (parseInt($("#ano").val()) !== year) {
             Swal.fire({
                 text: '¡El año debe ser el año actual!',
@@ -108,11 +105,11 @@ function insertarSalario() {
                     popup: 'my-swal-popup',
                 }
             });
-            return; // Detener el proceso
+            return;
         }
 
         const datos = {
-            ano: year, // Usar el año actual
+            ano: year, 
             salario: salarioFormateado,
         };
 
@@ -131,7 +128,7 @@ function insertarSalario() {
             })
             .then(data => {
                 Swal.fire({
-                    text: '¡Empleado creado exitosamente!',
+                    text: 'Salario creado exitosamente!',
                     icon: 'success',
                     confirmButtonColor: '#0f5044',
                     customClass: {
@@ -171,3 +168,93 @@ $(document).ready(function () {
         });
     });
 });
+
+
+function consultarEdades() {
+    $.ajax({
+        url: "http://localhost:8085/libertadores/edadReferencia/general",
+        type: "GET",
+        dataType: "json",
+        success: function (response) {
+            response.sort(function(a, b) {
+                return b.ano - a.ano;
+            });
+
+            $("#contenidoTablaEdades").empty();
+            response.forEach(element => {
+                var row = $("<tr>");
+                row.append($("<td>").text(element.genero));
+                
+                var edadInput = $("<input>").attr({
+                    type: "number",
+                    value: element.edad,
+                    id: "input_" + element.idEdad 
+                }).addClass("editable-edad");
+                
+                var edadCell = $("<td>").append(edadInput);
+                row.append(edadCell);
+
+                var botonActualizar = $("<button>").text("Actualizar").addClass("btn-actualizar");
+                var botonActualizar = $("<button>").text("Actualizar").addClass("btn-actualizar btn btn-success");
+
+                row.append($("<td>").append(botonActualizar));
+                
+                $("#contenidoTablaEdades").append(row);
+            });
+
+            $(".btn-actualizar").on("click", function() {
+                var idEdad = $(this).closest("tr").find("input").attr("id").split("_")[1];
+                var nuevaEdad = $(this).closest("tr").find("input").val();
+                var genero = $("#contenidoTablaEdades tr:first-child").find("td:first-child").text();
+                actualizarEdad(idEdad, nuevaEdad, genero);
+            });
+        },
+        error: function (xhr, status) {
+            Swal.fire({
+                text: '¡Ha ocurrido un error!',
+                icon: 'error',
+                confirmButtonColor: '#0f5044',
+                customClass: {
+                    popup: 'my-swal-popup',
+                }
+            });
+        }
+    });
+}
+
+function actualizarEdad(idEdad, nuevaEdad, genero) {
+    $.ajax({
+        url: "http://localhost:8085/libertadores/edadReferencia",
+        type: "PUT",
+        dataType: "json",
+        contentType: "application/json", 
+        data: JSON.stringify({
+            idEdad: idEdad,
+            edad: nuevaEdad,
+            genero: genero
+        }),
+        success: function(response) {
+            Swal.fire({
+                text: 'Edad actualizada exitosamente!',
+                icon: 'success',
+                confirmButtonColor: '#0f5044',
+                customClass: {
+                    popup: 'my-swal-popup',
+                }
+            })
+                .then(() => {
+                    consultarEdades();
+                });
+        },
+        error: function(xhr, status) {
+            Swal.fire({
+                text: '¡Ha ocurrido un error!',
+                icon: 'error',
+                confirmButtonColor: '#0f5044',
+                customClass: {
+                    popup: 'my-swal-popup',
+                }
+            });
+        }
+    });
+}

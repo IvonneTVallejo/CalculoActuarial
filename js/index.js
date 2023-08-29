@@ -26,7 +26,6 @@ $("#login").click(function () {
             contentType: 'application/json',
             success: function (response) {
                 $("#token").val(response.token);
-                // Almacenar el tipo de usuario en el almacenamiento local
                 localStorage.setItem("tipoUsuario", response.tipoUsuario);
                 localStorage.setItem("username", response.username);
                 localStorage.setItem("idUser", response.idUsuario);

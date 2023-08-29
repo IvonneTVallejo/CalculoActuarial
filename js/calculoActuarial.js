@@ -28,7 +28,7 @@ $("#salarioBase").on({
                 .replace(/([0-9])([0-9]{2})$/, '$1.$2')
                 .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
 
-            return "$ " + value; // Agregar el signo de pesos al inicio
+            return "$ " + value; 
         });
     }
 });
@@ -478,11 +478,11 @@ function generatePDF() {
         compress: true,
         logo: {
             src: "/Images/avatar.png",
-            width: 50, //aspect ratio = width/height
+            width: 50, 
             height: 33,
             margin: {
-                top: 0, //negative or positive num, from the current position
-                left: 0 //negative or positive num, from the current position
+                top: 0, 
+                left: 0 
             }
         },
         business: {
@@ -499,7 +499,7 @@ function generatePDF() {
             address: "Identificación: " + docEmpleado,
             phone: "Fecha Nacimiento: " + fechaNac,
             email: "Género: " + genero,
-            // otherInfo: "www.website.al", // Puedes agregar esto si es necesario
+            
         },
         invoice: {
             headerBorder: true,

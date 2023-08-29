@@ -26,7 +26,6 @@ var tipoUsuario = localStorage.getItem("tipoUsuario");
 
 var username = localStorage.getItem("username");
 
-// Actualizar el contenido del elemento HTML
 var usernameDisplay = document.getElementById("usernameDisplay");
 usernameDisplay.innerHTML = `<img src="/Images/sesion.png" /> Hola, ${username}!`;
 
@@ -48,10 +47,10 @@ if (tipoUsuario === "asesor") {
 
 
 function cerrarSesion() {
-    localStorage.removeItem("token"); // Borrar el token de autenticación
+    localStorage.removeItem("token"); 
     localStorage.removeItem("tipoUsuario"); 
-    localStorage.removeItem("username");// Borrar el tipo de usuario u otros datos
+    localStorage.removeItem("username");
     localStorage.removeItem("idUser");
-    // Otros pasos de limpieza que puedas necesitar
-    window.location.href = '/index.html'; // Redirigir a la página de inicio de sesión
+
+    window.location.href = '/index.html';
 }

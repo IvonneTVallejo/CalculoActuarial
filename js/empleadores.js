@@ -26,7 +26,7 @@ function consultarEmpleador() {
         type: "GET",
         dataType: "json",
         success: function (response) {
-            // Ordenar los registros en orden contrario según el ID
+
             response.sort(function(a, b) {
                 return b.idEmpleador - a.idEmpleador;
             });
