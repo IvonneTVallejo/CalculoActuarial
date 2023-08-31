@@ -1,7 +1,7 @@
 
 $(document).ready(function () {
     $("form").submit(function (event) {
-        event.preventDefault(); 
+        event.preventDefault();
     });
 });
 
@@ -72,3 +72,14 @@ showBtn.addEventListener('click', function () {
         showBtn.style.color = "#222";
     }
 });
+
+function mostrarAlerta() {
+    Swal.fire({
+        text: '¡Por favor contacta a tu administrador!',
+        icon: 'info',
+        confirmButtonColor: '#0f5044',
+        customClass: {
+            popup: 'my-swal-popup',
+        },
+    });
+}

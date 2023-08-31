@@ -175,7 +175,7 @@ function consultarEdades() {
         url: "http://localhost:8085/libertadores/edadReferencia/general",
         type: "GET",
         dataType: "json",
-        success: function (response) {
+        success: function(response) {
             response.sort(function(a, b) {
                 return b.ano - a.ano;
             });
@@ -184,32 +184,31 @@ function consultarEdades() {
             response.forEach(element => {
                 var row = $("<tr>");
                 row.append($("<td>").text(element.genero));
-                
+
                 var edadInput = $("<input>").attr({
                     type: "number",
                     value: element.edad,
-                    id: "input_" + element.idEdad 
+                    id: "input_" + element.idEdad
                 }).addClass("editable-edad");
-                
+
                 var edadCell = $("<td>").append(edadInput);
                 row.append(edadCell);
 
-                var botonActualizar = $("<button>").text("Actualizar").addClass("btn-actualizar");
                 var botonActualizar = $("<button>").text("Actualizar").addClass("btn-actualizar btn btn-success");
 
                 row.append($("<td>").append(botonActualizar));
-                
+
                 $("#contenidoTablaEdades").append(row);
             });
 
             $(".btn-actualizar").on("click", function() {
                 var idEdad = $(this).closest("tr").find("input").attr("id").split("_")[1];
                 var nuevaEdad = $(this).closest("tr").find("input").val();
-                var genero = $("#contenidoTablaEdades tr:first-child").find("td:first-child").text();
+                var genero = $(this).closest("tr").find("td:first-child").text(); 
                 actualizarEdad(idEdad, nuevaEdad, genero);
             });
         },
-        error: function (xhr, status) {
+        error: function(xhr, status) {
             Swal.fire({
                 text: '¡Ha ocurrido un error!',
                 icon: 'error',
@@ -221,6 +220,7 @@ function consultarEdades() {
         }
     });
 }
+
 
 function actualizarEdad(idEdad, nuevaEdad, genero) {
     $.ajax({
