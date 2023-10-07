@@ -18,20 +18,6 @@ botonNUevoCalculo.addEventListener('click', function () {
     limpiarCampos();
 });
 
-$("#salarioBase").on({
-    "focus": function (event) {
-        $(event.target).select();
-    },
-    "keyup": function (event) {
-        $(event.target).val(function (index, value) {
-            value = value.replace(/\D/g, "")
-                .replace(/([0-9])([0-9]{2})$/, '$1.$2')
-                .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ",");
-
-            return "$ " + value; 
-        });
-    }
-});
 
 
 // Funciones para limpiar los campos de los modales insertar y actualizar
@@ -184,74 +170,89 @@ function generaCalculo() {
                 }
             });
         } else {
-            Swal.fire({
-                title: '¿Desea continuar?',
-                text: "Por favor revise que la información este correcta, una vez calculado ya no se podrá modificar el registro",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#0f5044',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Confirmar',
-                customClass: {
-                    popup: 'my-swal-popup',
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Inicio operacion con el back
-                    const url = 'http://localhost:8085/libertadores/calculoAc';
-                    const datos = {
-                        idEmpleado: $("#idEmpleado").val(),
-                        idEmpleador: $("#idEmpleador").val(),
-                        idUsuario: $("#idUser").val(),
-                        fechaInicioNoPago: $("#fechaIni").val(),
-                        fechaCorte: $("#fechaFin").val(),
-                        fechaNacimiento: $("#fechaNac").val(),
-                        salarioBaseLiquidacion: parseFloat($("#salarioBase").val().replace(/[^\d.-]/g, '')),
-                        genero: $("#genero").val(),
-                    };
 
-                    fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(datos)
-                    })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Error en la solicitud');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            const totalAPagarField = document.getElementById('total');
-                            const formattedReservaActuarial = formatCurrency(data.reservaActurial);
-                            totalAPagarField.value = formattedReservaActuarial;
+            listarCamposSalarios().then(resultado => {
+                if (resultado) {
+                    Swal.fire({
+                        title: '¿Desea continuar?',
+                        text: "Por favor revise que la información este correcta, una vez calculado ya no se podrá modificar el registro",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#0f5044',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Confirmar',
+                        customClass: {
+                            popup: 'my-swal-popup',
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Inicio operacion con el back
+                            const url = 'http://localhost:8085/libertadores/calculoAc';
+                            const datos = {
+                                idEmpleado: $("#idEmpleado").val(),
+                                idEmpleador: $("#idEmpleador").val(),
+                                idUsuario: $("#idUser").val(),
+                                fechaInicioNoPago: $("#fechaIni").val(),
+                                fechaCorte: $("#fechaFin").val(),
+                                fechaNacimiento: $("#fechaNac").val(),
+                                salarioBaseLiquidacion: parseFloat($("#salarioBase").val().replace(/[^\d.-]/g, '')),
+                                genero: $("#genero").val(),
+                            };
 
-                            const fecha = new Date(data.fechaRegistro);
-                            const dia = fecha.getDate();
-                            const mes = fecha.getMonth() + 1;
-                            const anio = fecha.getFullYear();
-                            const fechaFormateada = `${anio}-${mes < 10 ? '0' : ''}${mes}-${dia < 10 ? '0' : ''}${dia}`;
-                            fechaRegistro.value = fechaFormateada;
-
-                            Swal.fire({
-                                text: '¡Cálculo realizado exitosamente!',
-                                icon: 'success',
-                                confirmButtonColor: '#0f5044',
-                                customClass: {
-                                    popup: 'my-swal-popup',
-                                }
+                            fetch(url, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(datos)
                             })
-                                .then(() => {
-                                    generatePDF();
-                                    consultarCalculo();
-                                    $("#btnGenerarCalculo").prop("disabled", true);
+                                .then(response => {
+                                    if (!response.ok) {
+                                        Swal.fire({
+                                            text: '¡El salario no puede ser menor a 1 SMML ni mayor a 25 SMML del año de la fecha de corte!',
+                                            icon: 'error',
+                                            confirmButtonColor: '#0f5044',
+                                            customClass: {
+                                                popup: 'my-swal-popup',
+                                            }
+                                        });
+                                        throw new Error('Error en la solicitud');
+                                    }
+                                    return response.json();
+                                })
+                                .then(data => {
+                                    const totalAPagarField = document.getElementById('total');
+                                    const formattedReservaActuarial = formatCurrency(data.reservaActurial);
+                                    totalAPagarField.value = formattedReservaActuarial;
+
+                                    const fecha = new Date(data.fechaRegistro);
+                                    const dia = fecha.getDate();
+                                    const mes = fecha.getMonth() + 1;
+                                    const anio = fecha.getFullYear();
+                                    const fechaFormateada = `${anio}-${mes < 10 ? '0' : ''}${mes}-${dia < 10 ? '0' : ''}${dia}`;
+                                    fechaRegistro.value = fechaFormateada;
+
+                                    Swal.fire({
+                                        text: '¡Cálculo realizado exitosamente!',
+                                        icon: 'success',
+                                        confirmButtonColor: '#0f5044',
+                                        customClass: {
+                                            popup: 'my-swal-popup',
+                                        }
+                                    })
+                                        .then(() => {
+                                            generatePDF();
+                                            consultarCalculo();
+                                            $("#btnGenerarCalculo").prop("disabled", true);
+                                        });
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
                                 });
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
+                        }
+                    })
+                } else {
+                    alert('El salarioBase NO está en el rango válido.');
                 }
             })
 
@@ -478,11 +479,11 @@ function generatePDF() {
         compress: true,
         logo: {
             src: "/Images/avatar.png",
-            width: 50, 
+            width: 50,
             height: 33,
             margin: {
-                top: 0, 
-                left: 0 
+                top: 0,
+                left: 0
             }
         },
         business: {
@@ -499,7 +500,7 @@ function generatePDF() {
             address: "Identificación: " + docEmpleado,
             phone: "Fecha Nacimiento: " + fechaNac,
             email: "Género: " + genero,
-            
+
         },
         invoice: {
             headerBorder: true,
@@ -559,3 +560,32 @@ $(document).ready(function () {
 
 
 
+function listarCamposSalarios() {
+    const apiUrl = 'http://localhost:8085/libertadores/salario/general';
+
+    return fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Devolver el arreglo de datos
+            return data; // Supongo que la API devuelve un arreglo de datos
+        })
+        .catch(error => {
+            console.error('Error al obtener los campos de la tabla "salarios":', error);
+            // En caso de error, puedes devolver un arreglo vacío o null
+            return null;
+        });
+}
+
+listarCamposSalarios()
+    .then(data => {
+        if (data) {
+            console.log('Campos de la tabla "salarios":', data);
+        } else {
+            console.log('No se pudieron obtener los campos de la tabla "salarios".');
+        }
+    });
