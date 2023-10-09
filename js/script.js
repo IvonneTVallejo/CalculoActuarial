@@ -45,6 +45,10 @@ if (tipoUsuario === "asesor") {
     $("#pageUsuarios").hide(); 
 }
 
+if (!localStorage.getItem('idUser')) {
+    window.location.href = '/pages/accesoDenegado.html';
+} 
+
 
 function cerrarSesion() {
     localStorage.removeItem("token"); 
