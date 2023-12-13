@@ -596,3 +596,7 @@ thead {
 li {
     cursor: pointer;
 }
+
+.error {
+    border: 1px solid red;
+}

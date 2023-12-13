@@ -59,6 +59,11 @@ function consultarEmpleador() {
 
 // Funcion para registrar un empleador
 function crearEmpleador() {
+
+    if(!validarCorreo()){
+        return false;
+    }
+
     if ($("#nit").val().length == 0 || $("#nombre").val().length == 0 || $("#telefono").val().length == 0 || $("#correo").val().length == 0 || $("#tipo").val() == "") {
         Swal.fire({
             text: '¡Por favor complete todos los campos!',
@@ -234,3 +239,18 @@ $(document).ready(function () {
         });
     });
 });
+
+function validarCorreo() {
+    var correoInput = document.getElementById("correo");
+    var correo = correoInput.value;
+
+    var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!regex.test(correo)) {
+        correoInput.classList.add("error");
+        return false;
+    } else {
+        correoInput.classList.remove("error"); 
+        return true;
+    }
+}
